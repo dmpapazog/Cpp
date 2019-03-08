@@ -1,16 +1,13 @@
 #include <iostream>
-
-class Set;
-
 #include "../../include/Set/Set.h"
 
 using namespace std;
 
-int main() 
+int main()
 {
     Set mySet1(10);
     mySet1.insert(10);
-    
+
     Set mySet2(3);
     mySet2.insert(1);
     mySet2.insert(2);

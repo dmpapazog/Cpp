@@ -9,9 +9,9 @@ int Set::insert(const unsigned int& element)
     return Bag::insert(element);
 }
 
-Set operator+(Set& a, const unsigned int& element)
+Set Set::operator+(const unsigned int& element)
 {
-    Set c = a;
+    Set c = *this;
     c.insert(element);
     return c;
 }

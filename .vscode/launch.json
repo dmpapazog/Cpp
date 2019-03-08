@@ -40,14 +40,14 @@
             "request": "launch",
             // "preLaunchTask": "build",
             "program": "${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
-            "args": ["25", "125"],
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [
                 // {"_DEBUG": "1"},
                 // {"__DEBUG__": "1"}
             ],
-            "externalConsole": false,
+            "externalConsole": true,
             "avoidWindowsConsoleRedirection": false,
             "MIMode": "gdb",
             "miDebuggerPath": "gdb.exe",
