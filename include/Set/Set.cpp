@@ -18,7 +18,8 @@ Set Set::operator+(const unsigned int& element)
 
 void Set::operator=(const Set& b)
 {
-    for (int i = 0; i < b.getSize(); i++) {
+    int sixe = b.getSize();
+    for (int i = 0; i < size; i++) {
         if (this->insert(b.data[i]) == 1) {
         };
     }
@@ -26,7 +27,8 @@ void Set::operator=(const Set& b)
 
 void Set::print() const
 {
-    for (int i = 0; i < getSize(); i++) {
+    int size = getSize();
+    for (int i = 0; i < size; i++) {
         std::cout << "Element " << i << ": " << data[i] << std::endl;
     }
 }
