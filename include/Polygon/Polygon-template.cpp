@@ -23,6 +23,15 @@ Polygon::Polygon(const int &size, const Targs &... args)
     initSides(sides, args...);
 }
 
+Polygon::Polygon(const Polygon &old)
+{
+    this->size = old.size;
+    this->sides = new double[this->size];
+    for (int i = 0; i < this->size; i++) {
+        this->sides[i] = old.sides[i];
+    }
+}
+
 template <typename... Targs>
 void Polygon::setPolygon(const int &size, const Targs &... args)
 {
