@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../../include/BankAccount/BankAccount.h"
-#include "../../include/SavingAccount/SavingAccount.h"
+#include "include/BankAccount/BankAccount.h"
+#include "include/SavingAccount/SavingAccount.h"
 
 using namespace std;
 
@@ -38,5 +38,5 @@ int main() {
     cout << "The balance of bank account C is: " << C.getBalance() << " euros" << endl;
     cout << "After 10 years the balance of account C will be " << C.finalAmount(10) << " euros" << endl;
 
-    return 1;
+    return 0;
 }
