@@ -1,218 +1,95 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
             "type": "shell",
-            "dependsOn": "compile",
+            "label": "build & run",
+            "dependsOn": "build",
             "command": "cd",
             "args": [
-                "${fileDirname};",
-                "g++",
+                "${workspaceFolder}\\bin;",
+                "./${fileBasenameNoExtension}.exe"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "build",
+            "dependsOn": "compile",
+            "command": "g++.exe",
+            "args": [
                 "-g",
+                "${fileDirname}\\*.o",
                 "-o",
-                "${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
-                "*.o",
-                // "-m32",
-                // "-g3"
+                "${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe"
             ],
             "problemMatcher": [
                 {
                     "base": "$gcc",
                     "fileLocation": [
-                        "relative",
-                        "${fileDirname}"
+                        "absolute"
                     ]
                 },
                 {
-                    "owner": "linker",
+                    "owner": "gcc linker",
                     "fileLocation": [
                         "absolute"
                     ],
                     "pattern": [
-                        // {
-                        //     "regexp": "^(.*)\\.o:\\s+(.*:)$",
-                        //     "message": 2,
-                        // },
                         {
                             "regexp": "^(.*):(\\d+):\\s+(.*)\\s+`(.*)'$",
                             "file": 1,
                             "line": 2,
                             "message": 3,
-                            "code": 4,
-                            // "loop": true
+                            "code": 4
                         }
                     ]
                 }
             ],
-            "presentation": {
-                "focus": true,
-            }
-        },
-        {
-            "label": "compile",
-            "type": "shell",
-            "command": "cd",
-            "args": [
-                "${fileDirname};",
-                "g++",
-                "-pedantic",
-                "-Wall",
-                "-Wextra",
-                "-Wcast-align",
-                "-Wcast-qual",
-                "-Wctor-dtor-privacy",
-                "-Wdisabled-optimization",
-                "-Wformat=2",
-                "-Winit-self",
-                "-Wlogical-op",
-                "-Wmissing-declarations",
-                "-Wmissing-include-dirs",
-                "-Wnoexcept",
-                "-Wold-style-cast",
-                "-Woverloaded-virtual",
-                "-Wredundant-decls",
-                // "-Wshadow",
-                "-Wsign-conversion",
-                "-Wsign-promo",
-                "-Wstrict-null-sentinel",
-                "-Wstrict-overflow=5",
-                "-Wswitch-default",
-                "-Wundef",
-                // "-Wno-unused",
-                "-fexceptions",
-                "-fpermissive",
-                "-g",
-                "-c",
-                "${fileBasename}",
-                "-o",
-                "${fileBasenameNoExtension}.o",
-                // "-m32",
-                // "-g3"
-            ],
-            "problemMatcher": [
-                {
-                    "base": "$gcc",
-                    "fileLocation": [
-                        "relative",
-                        "${fileDirname}"
-                    ]
-                }
-            ],
-            "presentation": {
-                "focus": true,
-            }
-        },
-        {
-            "label": "compile all",
-            "type": "shell",
-            "command": "cd",
-            "args": [
-                "${fileDirname};",
-                "g++",
-                "-pedantic",
-                "-Wall",
-                "-Wextra",
-                "-Wcast-align",
-                "-Wcast-qual",
-                "-Wctor-dtor-privacy",
-                "-Wdisabled-optimization",
-                "-Wformat=2",
-                "-Winit-self",
-                "-Wlogical-op",
-                "-Wmissing-declarations",
-                "-Wmissing-include-dirs",
-                "-Wnoexcept",
-                "-Wold-style-cast",
-                "-Woverloaded-virtual",
-                "-Wredundant-decls",
-                // "-Wshadow",
-                "-Wsign-conversion",
-                "-Wsign-promo",
-                "-Wstrict-null-sentinel",
-                "-Wstrict-overflow=5",
-                "-Wswitch-default",
-                "-Wundef",
-                "-Wno-unused",
-                "-fexceptions",
-                "-fpermissive",
-                "-g",
-                "-c",
-                "*.cpp",
-                // "-m32",
-                // "-g3"
-            ],
-            "problemMatcher": [
-                {
-                    "base": "$gcc",
-                    "fileLocation": [
-                        "relative",
-                        "${fileDirname}"
-                    ]
-                }
-            ],
-            "presentation": {
-                "focus": true,
-            }
-        },
-        {
-            "label": "clean",
-            "type": "shell",
-            "command": "cd",
-            "args": [
-                "${fileDirname};",
-                "rm",
-                "*.o"
-            ],
-            "problemMatcher": [
-                {
-                    "base": "$gcc",
-                    "fileLocation": [
-                        "relative",
-                        "${fileDirname}"
-                    ]
-                }
-            ],
-            "presentation": {
-                "echo": true,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            }
-        },
-        {
-            "label": "build & run",
-            "type": "shell",
             "group": {
-                "kind": "test",
+                "kind": "build",
                 "isDefault": true
-            },
+            }
+        },
+        {
+            "type": "shell",
+            "label": "compile",
+            "command": "g++.exe",
+            "args": [
+                "-Wall",
+                "-g",
+                "-IC:\\Users\\Jim\\Documents\\C++",
+                "-c",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.o"
+            ],
             "problemMatcher": [
                 {
                     "base": "$gcc",
                     "fileLocation": [
-                        "relative",
-                        "${fileDirname}"
+                        "absolute"
                     ]
-                },
-            ],
-            "dependsOn": "build",
-            "command": "cd",
-            "args": [
-                "bin;",
-                "./${fileBasenameNoExtension}.exe"
+                }
             ],
             "presentation": {
-                "focus": true,
+                "focus": true
             }
+        },
+        {
+            "type": "shell",
+            "label": "clean",
+            "command": "rm",
+            "args": [
+                "${fileDirname}\\*.o"
+            ],
+            "presentation": {
+                "focus": true
+            },
+            "problemMatcher": []
         }
     ]
 }
