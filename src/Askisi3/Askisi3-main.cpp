@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../include/Set/Set.h"
+#include "include/Set/Set.h"
 
 using namespace std;
 
