@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../../include/Circle/Circle.h"
-#include "../../include/Cylinder/Cylinder.h"
+#include "include/Circle/Circle.h"
+#include "include/Cylinder/Cylinder.h"
 
 using namespace std;
 

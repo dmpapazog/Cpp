@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../include/Polygon/Polygon-template.h"
+#include "include/Polygon/Polygon-template.h"
 
 using namespace std;
 
