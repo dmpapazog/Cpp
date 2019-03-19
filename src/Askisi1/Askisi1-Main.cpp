@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../../include/Rectangular/Rectangular.h"
-#include "../../include/Square/Square.h"
-#include "../../include/Box/Box.h"
+#include "include/Rectangular/Rectangular.h"
+#include "include/Square/Square.h"
+#include "include/Box/Box.h"
 
 using namespace std;
 

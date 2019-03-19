@@ -2,7 +2,6 @@
  *  with backtracking.
  */
 #include <iostream>
-#include <stdlib.h>
 
 // Set the side of the board
 // default: N = 5
@@ -94,7 +93,7 @@ void initBoard(int board[N][N])
     }
 }
 
-int main(int argc) {
+int main() {
     int board[N][N];
 
     std::cout << "Initializing board...\n";
