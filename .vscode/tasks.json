@@ -90,6 +90,28 @@
                 "focus": true
             },
             "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "compile all",
+            "command": "g++.exe",
+            "args": [
+                "-Wall",
+                "-g",
+                "-c",
+                "${fileDirname}\\*.cpp"
+            ],
+            "problemMatcher": [
+                {
+                    "base": "$gcc",
+                    "fileLocation": [
+                        "absolute"
+                    ]
+                }
+            ],
+            "presentation": {
+                "focus": true
+            }
         }
     ]
 }
