@@ -1,24 +1,25 @@
 #include <iostream>
+#include <stdio.h>
 
-using namespace std;
 
-int N = 0;
+// Show number of steps allong the way.
+int step = 0;
 
 void printMessage(const int& n, const char& from_rod, const char& to_rod)
 {
-    cout << "Step " << ++N << ": Move disk " << n << " from " << from_rod << " to " << to_rod << '\n';
+    printf("Step %-4d: Move disk %2d from %c to %c\n", ++step, n, from_rod, to_rod);
 }
 
 void towerOfHanoi(const int& n, const char& from_rod, const char& to_rod, const char& aux_rod)
 {
     // If there is one disk to be moved,
-    // move it directryl to the to_rod
+    // move it directly to the destination.
     if (n == 1) {
         printMessage(n, from_rod, to_rod);
         return;
     }
-    // Move the n - 1 disks to the 
-    // auxiliary rod.
+    // Move the n - 1 disks to
+    // the auxiliary rod.
     towerOfHanoi(n - 1, from_rod, aux_rod, to_rod);
 
     // Move the nth rod to the destination.
@@ -31,10 +32,10 @@ void towerOfHanoi(const int& n, const char& from_rod, const char& to_rod, const 
 
 int main()
 {
-    int n;
-    cout << "How many disks are there? ";
-    cin >> n;
-    towerOfHanoi(n, 'A', 'C', 'B');
+    int disks;
+    std::cout << "How many disks are there? ";
+    std::cin >> disks;
+    towerOfHanoi(disks, 'A', 'C', 'B');
 
     return 0;
 }
