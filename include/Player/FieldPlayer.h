@@ -28,7 +28,6 @@ class FieldPlayer : public Player {
                     const int&        s_passes,
                     const int&        tackles,
                     const int&        s_tackles);
-        ~FieldPlayer();
 };
 
 

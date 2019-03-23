@@ -19,7 +19,6 @@ public:
            const bool&       international,
            const int&        saves,
            const int&        n_goals);
-    ~Goalie();
 
     double getGrade() const;
 };

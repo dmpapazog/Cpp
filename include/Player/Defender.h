@@ -17,8 +17,7 @@ class Defender : public FieldPlayer {
                  const int&        s_passes,
                  const int&        tackles,
                  const int&        s_tackles);
-        ~Defender();
-
+                 
         double getGrade() const;
 };
 

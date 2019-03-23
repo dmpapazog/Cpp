@@ -17,7 +17,6 @@ class Attacker : public FieldPlayer {
                  const int&        s_passes,
                  const int&        tackles,
                  const int&        s_tackles);
-        ~Attacker();
 
         double getGrade() const;
 };
