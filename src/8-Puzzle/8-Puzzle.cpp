@@ -26,16 +26,13 @@ int main()
 
 
     if (!initialState.isSolvable()) {
-        cout << "Computing another initial state.\n";
+        cout << "The problem is unsolvable.\n";
 
         return EXIT_FAILURE;
     }
 
     State finalState(N);
     finalState.setFinalState();
-
-    cout << "\nFinal state:\n";
-    finalState.printBoard();
 
     queue<State> frontier;
     unordered_set<State> closedSet;
@@ -46,10 +43,11 @@ int main()
 
     if (BFS(&frontier, &closedSet, finalState, &solution)) {
         cout << "A solution was found.\n";
+        int step = 1;
         while (!solution.empty()) {
             State temp = solution.top();
+            cout << "\nStep" << step++ << ":\n";
             temp.printBoard();
-            cout << "\nNEXT\n";
             solution.pop();
         }
     } else {
