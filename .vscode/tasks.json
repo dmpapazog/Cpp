@@ -60,6 +60,7 @@
             "command": "g++.exe",
             "args": [
                 "-Wall",
+                "-std=c++0x",
                 "-g",
                 "-IC:\\Users\\Jim\\Documents\\C++",
                 "-c",
@@ -97,6 +98,7 @@
             "command": "g++.exe",
             "args": [
                 "-Wall",
+                "-std=c++0x",
                 "-g",
                 "-c",
                 "${fileDirname}\\*.cpp"
