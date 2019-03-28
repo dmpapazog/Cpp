@@ -62,7 +62,11 @@ bool BFS(queue<State> *frontier, unordered_set<State> *closedSet, const State &f
     while (!frontier->empty()) {
         State *current = new State(N);
         *current = frontier->front();
-        closedSet->insert(*current);
+        frontier->pop();
+
+        if (closedSet->find(*current) != closedSet->end()) {
+            continue;
+        }
 
         if (*current == finalState) {
             while (current->getParent() != nullptr) {
@@ -72,15 +76,9 @@ bool BFS(queue<State> *frontier, unordered_set<State> *closedSet, const State &f
             return true;
         }
 
-        current->expand(frontier, closedSet);
+        current->expand(frontier);
 
         closedSet->insert(*current);
-        frontier->pop();
-        
-        // test++;
-        // if (test > 100) {
-        //     break;
-        // }
     }
 
     return false;

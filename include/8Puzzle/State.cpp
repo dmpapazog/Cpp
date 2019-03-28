@@ -98,7 +98,7 @@ bool State::moveLeft(int i, int j) const
     return j > 0;
 }
 
-void State::expand(queue<State> *frontier, unordered_set<State> *closedSet)
+void State::expand(queue<State> *frontier)
 {
     int x, y;
     bool found = false;
@@ -112,7 +112,7 @@ void State::expand(queue<State> *frontier, unordered_set<State> *closedSet)
         }
     }
 
-    State tempStates[4] = {size, size, size, size};
+    State tempStates[4];
     for (int i = 0; i < 4; i++) {
         tempStates[i] = *this;
     }
@@ -135,7 +135,7 @@ void State::expand(queue<State> *frontier, unordered_set<State> *closedSet)
     }
 
     for (int i = 0; i < 4; i++) {
-        if (closedSet->find(tempStates[i]) == closedSet->end()) {
+        if (!(tempStates[i] == *this)) {
             frontier->push(tempStates[i]);
         }
     }
@@ -172,7 +172,7 @@ unsigned long long int State::getSum() const
 void State::operator=(const State& right)
 {
     this->size = right.size;
-    board = new int*[3];
+    board = new int*[this->size];
     for (int i = 0; i < size; i++) {
         board[i] = new int;
     }

@@ -6,56 +6,53 @@
 
 using namespace std;
 
-class State
-{
-    private:
-        int **board;
-        int size;
-        State *parent;
+class State {
+private:
+    int** board;
+    int size;
+    State* parent;
 
-        void swap(int *a, int*b);
-    public:
-        State();
-        State(int size);
+    void swap(int* a, int* b);
 
-        void setFinalState();
-        void setInitialState();
-        void setBoard(const int **board, int size);
+public:
+    State();
+    State(int size);
 
-        void printBoard() const;
+    void setFinalState();
+    void setInitialState();
+    void setBoard(const int** board, int size);
 
-        bool moveUp(int i, int j) const;
-        bool moveRight(int i, int j) const;
-        bool moveDown(int i, int j) const;
-        bool moveLeft(int i, int j) const;
+    void printBoard() const;
 
-        void expand(queue<State> *frontier, unordered_set<State> *closedSet);
+    bool moveUp(int i, int j) const;
+    bool moveRight(int i, int j) const;
+    bool moveDown(int i, int j) const;
+    bool moveLeft(int i, int j) const;
 
-        bool operator==(const State &right) const;
-        void operator=(const State &right);
+    void expand(queue<State>* frontier);
 
-        unsigned long long int getSum() const;
+    bool operator==(const State& right) const;
+    void operator=(const State& right);
 
-        int getInvCount(int *arr) const;
-        bool isSolvable() const;
+    unsigned long long int getSum() const;
 
-        State *getParent() const {return parent;}
+    int getInvCount(int* arr) const;
+    bool isSolvable() const;
 
-        // bool operator<(const State &right) const;
+    State* getParent() const { return parent; }
+
+    // bool operator<(const State &right) const;
 };
 
-namespace std
-{
-    template <>
-    struct hash<State>
+namespace std {
+template <>
+struct hash<State> {
+    unsigned long long int operator()(const State& k) const
     {
-        unsigned long long int operator()(const State& k) const
-        {
-            // Compute individual hash values for two data members and combine them using XOR and bit shifting
-            return hash<unsigned long long int>()(k.getSum());
-        }
-    };
+        // Compute individual hash based on getSum()
+        return hash<unsigned long long int>()(k.getSum());
+    }
+};
 }
-
 
 #endif // STATE_H
