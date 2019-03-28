@@ -13,7 +13,9 @@
 
 using namespace std;
 
-// int test = 0;
+unsigned long long int test = 0;
+
+void visitedCount();
 
 bool BFS(queue<State> *frontier, unordered_set<State> *closedSet, const State& finalState, stack<State> *solution);
 
@@ -42,7 +44,7 @@ int main()
     frontier.push(initialState);
 
     if (BFS(&frontier, &closedSet, finalState, &solution)) {
-        cout << "A solution was found.\n";
+        cout << "A solution was found.\n" << "States visited: " << test << '\n';
         int step = 1;
         while (!solution.empty()) {
             State temp = solution.top();
@@ -67,6 +69,7 @@ bool BFS(queue<State> *frontier, unordered_set<State> *closedSet, const State &f
         if (closedSet->find(*current) != closedSet->end()) {
             continue;
         }
+        visitedCount();
 
         if (*current == finalState) {
             while (current->getParent() != nullptr) {
@@ -82,4 +85,9 @@ bool BFS(queue<State> *frontier, unordered_set<State> *closedSet, const State &f
     }
 
     return false;
+}
+
+void visitedCount()
+{
+    cout << "Visit number: " << test++ << '\r' << flush;
 }
