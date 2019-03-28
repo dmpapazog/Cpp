@@ -19,9 +19,9 @@ State::State()
 State::State(int size)
 {
     this->size = size;
-    board = new int*[3];
+    board = new int*[size];
     for (int i = 0; i < size; i++) {
-        board[i] = new int;
+        board[i] = new int[size];
     }
 
     parent = nullptr;
@@ -37,7 +37,7 @@ void State::setFinalState()
     }
 }
 
-void State::setInitialState()
+void State::setRandomInitialState()
 {
     srand(time(NULL));
 
@@ -59,6 +59,13 @@ void State::setInitialState()
             NUMBERS.erase(it);
         }
     }
+}
+
+void State::setDefaultInitialState()
+{
+    board[0][0] = 6; board[0][1] = 7; board[0][2] = 1;
+    board[1][0] = 0; board[1][1] = 3; board[1][2] = 2;
+    board[2][0] = 8; board[2][1] = 5; board[2][2] = 4;
 }
 
 void State::printBoard() const
@@ -140,6 +147,48 @@ void State::expand(queue<State> *frontier)
         }
     }
 }
+void State::expand(stack<State> *frontier)
+{
+    int x, y;
+    bool found = false;
+    for (int i = 0; i < size && !found; i++) {
+        for (int j = 0; j < size && !found; j++) {
+            if (board[i][j] == 0) {
+                x = i;
+                y = j;
+                found = true;
+            }
+        }
+    }
+
+    State tempStates[4];
+    for (int i = 0; i < 4; i++) {
+        tempStates[i] = *this;
+    }
+
+    if (moveUp(x, y)) {
+        tempStates[0].swap(&tempStates[0].board[x - 1][y], &tempStates[0].board[x][y]);
+        tempStates[0].parent = this;
+    }
+    if (moveRight(x, y)) {
+        tempStates[1].swap(&tempStates[1].board[x][y + 1], &tempStates[1].board[x][y]);
+        tempStates[1].parent = this;
+    }
+    if (moveDown(x, y)) {
+        tempStates[2].swap(&tempStates[2].board[x + 1][y], &tempStates[2].board[x][y]);
+        tempStates[2].parent = this;
+    }
+    if (moveLeft(x, y)) {
+        tempStates[3].swap(&tempStates[3].board[x][y - 1], &tempStates[3].board[x][y]);
+        tempStates[3].parent = this;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        if (tempStates[i] != *this) {
+            frontier->push(tempStates[i]);
+        }
+    }
+}
 
 bool State::operator==(const State &right) const
 {
@@ -157,12 +206,18 @@ bool State::operator==(const State &right) const
     return true;
 }
 
+bool State::operator!=(const State &right) const
+{
+    return !(*this == right);
+}
+
 unsigned long long int State::getSum() const
 {
     long long int sum = 0;
+    int counter = 0;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            sum += (i + j) * board[i][j];
+            sum += counter++ * board[i][j];
         }
     }
 

@@ -2,6 +2,7 @@
 #define STATE_H
 
 #include <queue>
+#include <stack>
 #include <unordered_set>
 
 using namespace std;
@@ -19,7 +20,8 @@ public:
     State(int size);
 
     void setFinalState();
-    void setInitialState();
+    void setRandomInitialState();
+    void setDefaultInitialState();
     void setBoard(const int** board, int size);
 
     void printBoard() const;
@@ -30,8 +32,10 @@ public:
     bool moveLeft(int i, int j) const;
 
     void expand(queue<State>* frontier);
+    void expand(stack<State> *frontier);
 
     bool operator==(const State& right) const;
+    bool operator!=(const State& right) const;
     void operator=(const State& right);
 
     unsigned long long int getSum() const;
@@ -47,7 +51,7 @@ public:
 namespace std {
 template <>
 struct hash<State> {
-    unsigned long long int operator()(const State& k) const
+    size_t operator()(const State& k) const
     {
         // Compute individual hash based on getSum()
         return hash<unsigned long long int>()(k.getSum());
