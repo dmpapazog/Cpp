@@ -24,7 +24,7 @@ struct gradeComp
 {
     bool operator()(const State& lhs, const State& rhs) const
     {
-        return lhs <= rhs;
+        return (lhs.getGrade() <= rhs.getGrade());
     }
 };
 
@@ -52,7 +52,6 @@ int main()
 
     State finalState;
     finalState.setFinalState();
-    finalState.show();
 
     unordered_set<State>* closedSet = new unordered_set<State>();
     stack<State>* solution = new stack<State>();

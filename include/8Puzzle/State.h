@@ -41,10 +41,6 @@ class State {
 
         friend bool operator==(const State& lhs, const State& rhs);
         friend bool operator!=(const State& lhs, const State& rhs);
-        friend bool operator<(const State& lhs, const State& rhs);
-        friend bool operator>(const State& lhs, const State& rhs);
-        friend bool operator<=(const State& lhs, const State& rhs);
-        friend bool operator>=(const State& lhs, const State& rhs);
 };
 
 #endif // STATE_H

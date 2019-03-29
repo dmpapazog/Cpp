@@ -135,26 +135,6 @@ bool operator!=(const State& lhs, const State& rhs)
     return !(lhs == rhs);
 }
 
-bool operator<(const State& lhs, const State& rhs)
-{
-    return (lhs.getGrade() < rhs.getGrade());
-}
-
-bool operator<=(const State& lhs, const State& rhs)
-{
-    return (lhs.getGrade() <= rhs.getGrade());
-}
-
-bool operator>(const State& lhs, const State& rhs)
-{
-    return !(lhs <= rhs);
-}
-
-bool operator>=(const State& lhs, const State& rhs)
-{
-    return !(lhs < rhs);
-}
-
 void State::setFinalState()
 {
     int count = 1;
@@ -215,7 +195,7 @@ int State::setManhattan()
         grade += abs(index_i - x) + abs(index_j - y);
 
         if ((y + 1) > 3) {
-            x--;
+            x++;
         }
         y = (y + 1) % 3;
         number++;
