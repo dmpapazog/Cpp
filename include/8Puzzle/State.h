@@ -23,7 +23,7 @@ class State {
         void setFinalState();
         void setDefaultInitialState();
         void setRandomInitialState();
-        int setGrade();
+        int setManhattan();
 
         int getInvCount(int *arr) const;
         bool isSolvable() const;

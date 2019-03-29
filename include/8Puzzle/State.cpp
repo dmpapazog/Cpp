@@ -67,7 +67,7 @@ bool State::moveUp(const int& i, const int& j, State& child)
         child.swap(&child.board[i - 1][j], &child.board[i][j]);
 
         child.parent = this;
-        child.grade = child.setGrade();
+        child.grade = child.setManhattan();
         
         return true;
     }
@@ -82,7 +82,7 @@ bool State::moveRight(const int& i, const int& j, State& child)
         child.swap(&child.board[i][j + 1], &child.board[i][j]);
 
         child.parent = this;
-        child.grade = child.setGrade();
+        child.grade = child.setManhattan();
 
         return true;
     }
@@ -96,7 +96,7 @@ bool State::moveDown(const int& i, const int& j, State& child)
         child.swap(&child.board[i + 1][j], &child.board[i][j]);
 
         child.parent = this;
-        child.grade = child.setGrade();
+        child.grade = child.setManhattan();
 
         return true;
     }
@@ -110,7 +110,7 @@ bool State::moveLeft(const int& i, const int& j, State& child)
         child.swap(&child.board[i][j - 1], &child.board[i][j]);
 
         child.parent = this;
-        child.grade = child.setGrade();
+        child.grade = child.setManhattan();
 
         return true;
     }
@@ -174,7 +174,7 @@ void State::setDefaultInitialState()
     board[2][0] = 8; board[2][1] = 5; board[2][2] = 4;
     
     parent = nullptr;
-    grade = setGrade();
+    grade = setManhattan();
 }
 
 void State::setRandomInitialState()
@@ -199,10 +199,10 @@ void State::setRandomInitialState()
     }
 
     parent = nullptr;
-    grade = setGrade();
+    grade = setManhattan();
 }
 
-int State::setGrade()
+int State::setManhattan()
 {
     int x = 0, y = 0;
     int number = 1;
