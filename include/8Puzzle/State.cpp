@@ -5,73 +5,34 @@
 
 #include <iostream>
 
-#include <set>
 #include <iterator>
+#include <set>
+
+#include <climits>
+#include <cmath>
 
 using namespace std;
 
 State::State()
 {
-    size = 0;
+    initState();
     parent = nullptr;
+    grade = INT32_MAX;
 }
 
-State::State(int size)
+void State::initState()
 {
-    this->size = size;
-    board = new int*[size];
-    for (int i = 0; i < size; i++) {
-        board[i] = new int[size];
-    }
-
-    parent = nullptr;
-}
-
-void State::setFinalState()
-{
-    int count = 1;
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            board[i][j] = count++ % (size * size);
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            board[i][j] = -1;
         }
     }
 }
 
-void State::setRandomInitialState()
+void State::show() const
 {
-    srand(time(NULL));
-
-    parent = nullptr;
-
-    set<int> NUMBERS;
-    for (int i = 0; i < size * size; i++) {
-        NUMBERS.insert(i);
-    }
-
-    int randPosition;
-    set<int>::iterator it;
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            it = NUMBERS.begin();
-            randPosition = rand() % NUMBERS.size();
-            advance(it, randPosition);
-            board[i][j] = *it;
-            NUMBERS.erase(it);
-        }
-    }
-}
-
-void State::setDefaultInitialState()
-{
-    board[0][0] = 6; board[0][1] = 7; board[0][2] = 1;
-    board[1][0] = 0; board[1][1] = 3; board[1][2] = 2;
-    board[2][0] = 8; board[2][1] = 5; board[2][2] = 4;
-}
-
-void State::printBoard() const
-{
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
             cout << "| " << board[i][j] << " ";
         }
         cout << "|\n";
@@ -85,169 +46,222 @@ void State::swap(int* a, int* b)
     *b = temp;
 }
 
-bool State::moveUp(int i, int j) const
+bool State::findNum(int& x, int& y, const int& num) const
 {
-    return i > 0;
-}
-
-bool State::moveRight(int i, int j) const
-{
-    return j < (size - 1);
-}
-
-bool State::moveDown(int i, int j) const
-{
-    return i < (size - 1);
-}
-
-bool State::moveLeft(int i, int j) const
-{
-    return j > 0;
-}
-
-void State::expand(queue<State> *frontier)
-{
-    int x, y;
-    bool found = false;
-    for (int i = 0; i < size && !found; i++) {
-        for (int j = 0; j < size && !found; j++) {
-            if (board[i][j] == 0) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (board[i][j] == num) {
                 x = i;
                 y = j;
-                found = true;
+                return true;
             }
         }
     }
-
-    State tempStates[4];
-    for (int i = 0; i < 4; i++) {
-        tempStates[i] = *this;
-    }
-
-    if (moveUp(x, y)) {
-        tempStates[0].swap(&tempStates[0].board[x - 1][y], &tempStates[0].board[x][y]);
-        tempStates[0].parent = this;
-    }
-    if (moveRight(x, y)) {
-        tempStates[1].swap(&tempStates[1].board[x][y + 1], &tempStates[1].board[x][y]);
-        tempStates[1].parent = this;
-    }
-    if (moveDown(x, y)) {
-        tempStates[2].swap(&tempStates[2].board[x + 1][y], &tempStates[2].board[x][y]);
-        tempStates[2].parent = this;
-    }
-    if (moveLeft(x, y)) {
-        tempStates[3].swap(&tempStates[3].board[x][y - 1], &tempStates[3].board[x][y]);
-        tempStates[3].parent = this;
-    }
-
-    for (int i = 0; i < 4; i++) {
-        if (!(tempStates[i] == *this)) {
-            frontier->push(tempStates[i]);
-        }
-    }
-}
-void State::expand(stack<State> *frontier)
-{
-    int x, y;
-    bool found = false;
-    for (int i = 0; i < size && !found; i++) {
-        for (int j = 0; j < size && !found; j++) {
-            if (board[i][j] == 0) {
-                x = i;
-                y = j;
-                found = true;
-            }
-        }
-    }
-
-    State tempStates[4];
-    for (int i = 0; i < 4; i++) {
-        tempStates[i] = *this;
-    }
-
-    if (moveUp(x, y)) {
-        tempStates[0].swap(&tempStates[0].board[x - 1][y], &tempStates[0].board[x][y]);
-        tempStates[0].parent = this;
-    }
-    if (moveRight(x, y)) {
-        tempStates[1].swap(&tempStates[1].board[x][y + 1], &tempStates[1].board[x][y]);
-        tempStates[1].parent = this;
-    }
-    if (moveDown(x, y)) {
-        tempStates[2].swap(&tempStates[2].board[x + 1][y], &tempStates[2].board[x][y]);
-        tempStates[2].parent = this;
-    }
-    if (moveLeft(x, y)) {
-        tempStates[3].swap(&tempStates[3].board[x][y - 1], &tempStates[3].board[x][y]);
-        tempStates[3].parent = this;
-    }
-
-    for (int i = 0; i < 4; i++) {
-        if (tempStates[i] != *this) {
-            frontier->push(tempStates[i]);
-        }
-    }
+    return false;
 }
 
-bool State::operator==(const State &right) const
+bool State::moveUp(const int& i, const int& j, State& child)
 {
-    if (size != right.size) {
-        return false;
+    if (i > 0) {
+        child = *this;
+        child.swap(&child.board[i - 1][j], &child.board[i][j]);
+
+        child.parent = this;
+        child.grade = child.setGrade();
+        
+        return true;
     }
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (board[i][j] != right.board[i][j]) {
+
+    return false;
+}
+
+bool State::moveRight(const int& i, const int& j, State& child)
+{
+    if (j < 3 - 1) {
+        child = *this;
+        child.swap(&child.board[i][j + 1], &child.board[i][j]);
+
+        child.parent = this;
+        child.grade = child.setGrade();
+
+        return true;
+    }
+    return false;
+}
+
+bool State::moveDown(const int& i, const int& j, State& child)
+{
+    if (i < 3 - 1) {
+        child = *this;
+        child.swap(&child.board[i + 1][j], &child.board[i][j]);
+
+        child.parent = this;
+        child.grade = child.setGrade();
+
+        return true;
+    }
+    return false;
+}
+
+bool State::moveLeft(const int& i, const int& j, State& child)
+{
+    if (j > 0) {
+        child = *this;
+        child.swap(&child.board[i][j - 1], &child.board[i][j]);
+
+        child.parent = this;
+        child.grade = child.setGrade();
+
+        return true;
+    }
+    return false;
+}
+
+bool operator==(const State& lhs, const State& rhs)
+{
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (lhs.board[i][j] != rhs.board[i][j]) {
                 return false;
             }
         }
     }
-
     return true;
 }
 
-bool State::operator!=(const State &right) const
+bool operator!=(const State& lhs, const State& rhs)
 {
-    return !(*this == right);
+    return !(lhs == rhs);
+}
+
+bool operator<(const State& lhs, const State& rhs)
+{
+    return (lhs.getGrade() < rhs.getGrade());
+}
+
+bool operator<=(const State& lhs, const State& rhs)
+{
+    return (lhs.getGrade() <= rhs.getGrade());
+}
+
+bool operator>(const State& lhs, const State& rhs)
+{
+    return !(lhs <= rhs);
+}
+
+bool operator>=(const State& lhs, const State& rhs)
+{
+    return !(lhs < rhs);
+}
+
+void State::setFinalState()
+{
+    int count = 1;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            board[i][j] = count++ % 9;
+        }
+    }
+
+    grade = 0;
+}
+
+void State::setDefaultInitialState()
+{
+    board[0][0] = 6; board[0][1] = 7; board[0][2] = 1;
+    board[1][0] = 0; board[1][1] = 3; board[1][2] = 2;
+    board[2][0] = 8; board[2][1] = 5; board[2][2] = 4;
+    
+    parent = nullptr;
+    grade = setGrade();
+}
+
+void State::setRandomInitialState()
+{
+    srand(time(NULL));
+
+    set<int> NUMBERS;
+    for (int i = 0; i < 9; i++) {
+        NUMBERS.insert(i);
+    }
+
+    int randPosition;
+    set<int>::iterator it;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            it = NUMBERS.begin();
+            randPosition = rand() % NUMBERS.size();
+            advance(it, randPosition);
+            board[i][j] = *it;
+            NUMBERS.erase(it);
+        }
+    }
+
+    parent = nullptr;
+    grade = setGrade();
+}
+
+int State::setGrade()
+{
+    int x = 0, y = 0;
+    int number = 1;
+
+    int index_i, index_j;
+
+    while (number < 9) {
+        findNum(index_i, index_j, number);
+
+        grade += abs(index_i - x) + abs(index_j - y);
+
+        if ((y + 1) > 3) {
+            x--;
+        }
+        y = (y + 1) % 3;
+        number++;
+    }
+    return grade;
+}
+
+void State::expand(vector<State>& children)
+{
+    State child;
+
+    int x, y;
+    findNum(x, y, 0);
+
+    if (this->moveUp(x, y, child)) {
+        children.push_back(child);
+    }
+    if (this->moveRight(x, y, child)) {
+        children.push_back(child);
+    }
+    if (this->moveDown(x, y, child)) {
+        children.push_back(child);
+    }
+    if (this->moveLeft(x, y, child)) {
+        children.push_back(child);
+    }
 }
 
 unsigned long long int State::getSum() const
 {
-    long long int sum = 0;
-    int counter = 0;
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            sum += counter++ * board[i][j];
+    unsigned long long int sum = 0;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            sum += (i + j) * board[i][j];
         }
     }
 
     return sum;
 }
 
-void State::operator=(const State& right)
-{
-    this->size = right.size;
-    board = new int*[this->size];
-    for (int i = 0; i < size; i++) {
-        board[i] = new int;
-    }
-
-    for (int i = 0; i < this->size; i++) {
-        for (int j = 0; j < this->size; j++) {
-            this->board[i][j] = right.board[i][j];
-        }
-    }
-
-    this->parent = right.parent;
-}
-
-int State::getInvCount(int *arr) const
+int State::getInvCount(int* arr) const
 {
     int inv_count = 0;
-    for (int i = 0; i < (size * size) - 1; i++) {
-        for (int j = i + 1; j < (size * size); j++) {
-
-            if (arr[j] && arr[i] && arr[i] > arr[j]) {
+    for (int i = 0; i < 9 - 1; i++) {
+        for (int j = i + 1; j < 9; j++) {
+            if ((arr[j] > 0) && (arr[i] > 0) && arr[i] > arr[j]) {
                 inv_count++;
             }
         }
@@ -257,7 +271,7 @@ int State::getInvCount(int *arr) const
 
 bool State::isSolvable() const
 {
-    int invCount = getInvCount((int *)board);
+    int invCount = getInvCount((int*)board);
 
     return (invCount % 2) == 0;
 }

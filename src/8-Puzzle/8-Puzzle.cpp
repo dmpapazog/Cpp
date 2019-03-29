@@ -2,30 +2,46 @@
 #include <cstdlib>
 #include <iostream>
 #include <queue>
+#include <set>
 #include <stack>
 #include <unordered_set>
-
-// The side of the board,
-// default: 3
-#define N 3
+#include <vector>
 
 using namespace std;
 
-unsigned long long int test = 0;
+namespace std {
+template <>
+struct hash<State> {
+    size_t operator()(const State& k) const
+    {
+        // Compute individual hash based on getSum()
+        return hash<unsigned long long int>()(k.getSum());
+    }
+};
+}
+
+struct gradeComp
+{
+    bool operator()(const State& lhs, const State& rhs) const
+    {
+        return lhs <= rhs;
+    }
+};
 
 void printMenu();
+void printSolution(stack<State>* solution);
 
-void visitedCount();
+void visitedCount(const int& num);
 
 bool BFS(queue<State>* frontier, unordered_set<State>* closedSet, const State& finalState, stack<State>* solution);
 bool DFS(stack<State>* frontier, unordered_set<State>* closedSet, const State& finalState, stack<State>* solution);
+bool BestFS(set<State, gradeComp>* frontier, unordered_set<State>* closedSet, const State& finalState, stack<State>* solution);
 
 int main()
 {
-    State initialState(N);
+    State initialState;
     initialState.setDefaultInitialState();
-    cout << "Initial state:\n";
-    initialState.printBoard();
+    initialState.show();
 
     if (!initialState.isSolvable()) {
         cout << "The problem is unsolvable.\n";
@@ -34,11 +50,12 @@ int main()
         return EXIT_FAILURE;
     }
 
-    State finalState(N);
+    State finalState;
     finalState.setFinalState();
+    finalState.show();
 
-    unordered_set<State> closedSet;
-    stack<State> solution;
+    unordered_set<State>* closedSet = new unordered_set<State>();
+    stack<State>* solution = new stack<State>();
 
     int choice = 0;
     printMenu();
@@ -46,22 +63,15 @@ int main()
 
     switch (choice) {
     case 1: {
-        queue<State> frontier1;
+        queue<State> *frontier = new queue<State>();
 
-        frontier1.push(initialState);
+        frontier->push(initialState);
 
-        if (BFS(&frontier1, &closedSet, finalState, &solution)) {
+        if (BFS(frontier, closedSet, finalState, solution)) {
             cout << "\nA solution was found.\n"
-                 << "States visited: " << test << '\n'
-                 << "Solution size: " << solution.size() << '\n\n';
-            
-            int step = 1;
-            while (!solution.empty()) {
-                State temp = solution.top();
-                cout << "\nStep" << step++ << ":\n";
-                temp.printBoard();
-                solution.pop();
-            }
+                 << "States visited: " << closedSet->size() << '\n'
+                 << "Solution size: " << solution->size() << "\n\n";
+            printSolution(solution);
             system("pause");
             return EXIT_SUCCESS;
         } else {
@@ -71,24 +81,15 @@ int main()
         }
     }
     case 2: {
-        stack<State> frontier2;
+        stack<State> *frontier = new stack<State>();
 
-        frontier2.push(initialState);
+        frontier->push(initialState);
 
-        if (DFS(&frontier2, &closedSet, finalState, &solution)) {
+        if (DFS(frontier, closedSet, finalState, solution)) {
             cout << "\nA solution was found.\n"
-                 << "States visited: " << test << '\n'
-                 << "Solution size: " << solution.size() << '\n\n';
-            // The DFS is not optimal, so the printing
-            // of the solution is avoided.
-
-            /* int step = 1;
-            while (!solution.empty()) {
-                State temp = solution.top();
-                cout << "\nStep" << step++ << ":\n";
-                temp.printBoard();
-                solution.pop();
-            } */
+                 << "States visited: " << closedSet->size() << '\n'
+                 << "Solution size: " << solution->size() << "\n\n";
+            // printSolution(solution);
             system("pause");
             return EXIT_SUCCESS;
         } else {
@@ -97,7 +98,29 @@ int main()
             return EXIT_FAILURE;
         }
     }
+    case 3: {
+        set<State, gradeComp> *frontier = new set<State, gradeComp>();
 
+        frontier->insert(initialState);
+
+        if (BestFS(frontier, closedSet, finalState, solution)) {
+            cout << "\nA solution was found.\n"
+                 << "States visited: " << closedSet->size() << '\n'
+                 << "Solution size: " << solution->size() << "\n\n";
+            printSolution(solution);
+            system("pause");
+            return EXIT_SUCCESS;
+        } else {
+            cout << "\nThe solution doesn't exist.\n\n";
+            system("pause");
+            return EXIT_FAILURE;
+        }
+    }
+    case 4: {
+        cout << "\nExiting...\n";
+        system("pause");
+        return EXIT_SUCCESS;
+    }
     default: {
         cout << "\nUnsupported choise. Exiting...\n\n";
         system("pause");
@@ -109,14 +132,9 @@ int main()
 bool BFS(queue<State>* frontier, unordered_set<State>* closedSet, const State& finalState, stack<State>* solution)
 {
     while (!frontier->empty()) {
-        State* current = new State(N);
+        State *current = new State();
         *current = frontier->front();
         frontier->pop();
-
-        if (closedSet->find(*current) != closedSet->end()) {
-            continue;
-        }
-        visitedCount();
 
         if (*current == finalState) {
             while (current->getParent() != nullptr) {
@@ -126,25 +144,30 @@ bool BFS(queue<State>* frontier, unordered_set<State>* closedSet, const State& f
             return true;
         }
 
-        current->expand(frontier);
+        if (closedSet->find(*current) != closedSet->end()) {
+            continue;
+        }
+
+        vector<State> children;
+        current->expand(children);
+
+        for (size_t i = 0; i < children.size(); i++) {
+            frontier->push(children.at(i));
+        }
 
         closedSet->insert(*current);
+        visitedCount(closedSet->size());
+        children.clear();
     }
-
     return false;
 }
 
 bool DFS(stack<State>* frontier, unordered_set<State>* closedSet, const State& finalState, stack<State>* solution)
 {
     while (!frontier->empty()) {
-        State* current = new State(N);
+        State *current = new State();
         *current = frontier->top();
         frontier->pop();
-
-        if (closedSet->find(*current) != closedSet->end()) {
-            continue;
-        }
-        visitedCount();
 
         if (*current == finalState) {
             while (current->getParent() != nullptr) {
@@ -154,17 +177,62 @@ bool DFS(stack<State>* frontier, unordered_set<State>* closedSet, const State& f
             return true;
         }
 
-        current->expand(frontier);
+        if (closedSet->find(*current) != closedSet->end()) {
+            continue;
+        }
+
+        vector<State> children;
+        current->expand(children);
+
+        for (size_t i = 0; i < children.size(); i++) {
+            frontier->push(children.at(i));
+        }
 
         closedSet->insert(*current);
+        visitedCount(closedSet->size());
+        children.clear();
     }
 
     return false;
 }
 
-void visitedCount()
+bool BestFS(set<State, gradeComp>* frontier, unordered_set<State>* closedSet, const State& finalState, stack<State>* solution)
 {
-    cout << "Visit number: " << test++ << '\r' << flush;
+    while (!frontier->empty()) {
+        State *current = new State();
+        *current = *(frontier->begin());
+        frontier->erase(frontier->begin());
+
+        if (*current == finalState) {
+            while (current->getParent() != nullptr) {
+                solution->push(*current);
+                current = current->getParent();
+            }
+            return true;
+        }
+
+        if (closedSet->find(*current) != closedSet->end()) {
+            continue;
+        }
+
+        vector<State> children;
+        current->expand(children);
+
+        for (size_t i = 0; i < children.size(); i++) {
+            frontier->insert(children.at(i));
+        }
+
+        closedSet->insert(*current);
+        visitedCount(closedSet->size());
+        children.clear();
+
+    }
+    return false;
+}
+
+void visitedCount(const int& num)
+{
+    cout << "Visit number: " << num << '\r' << flush;
 }
 
 void printMenu()
@@ -172,6 +240,18 @@ void printMenu()
     cout << "\nSelect the preferable search algorithm\n";
     cout << "1: BFS\n";
     cout << "2: DFS\n";
+    cout << "3: BestFS\n";
     cout << "4: Exit\n";
     cout << "Choice-> ";
+}
+
+void printSolution(stack<State> *solution)
+{
+    int step = 1;
+    while (!solution->empty()) {
+        State temp = solution->top();
+        cout << "\nStep" << step++ << ":\n";
+        temp.show();
+        solution->pop();
+    }
 }

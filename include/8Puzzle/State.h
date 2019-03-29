@@ -1,62 +1,50 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <queue>
-#include <stack>
-#include <unordered_set>
-
 using namespace std;
 
+#include <vector>
+
 class State {
-private:
-    int** board;
-    int size;
-    State* parent;
+    private:
+        int board[3][3];
+        State *parent;
+        int grade;
 
-    void swap(int* a, int* b);
+        void initState();
+        void swap(int *a, int *b);
+        bool findNum(int& x, int& y, const int& num) const;
+    public:
+        State();
 
-public:
-    State();
-    State(int size);
+        int getGrade() const { return grade; }
+        State *getParent() const {return parent; }
 
-    void setFinalState();
-    void setRandomInitialState();
-    void setDefaultInitialState();
-    void setBoard(const int** board, int size);
+        void setFinalState();
+        void setDefaultInitialState();
+        void setRandomInitialState();
+        int setGrade();
 
-    void printBoard() const;
+        int getInvCount(int *arr) const;
+        bool isSolvable() const;
 
-    bool moveUp(int i, int j) const;
-    bool moveRight(int i, int j) const;
-    bool moveDown(int i, int j) const;
-    bool moveLeft(int i, int j) const;
+        bool moveUp(const int& i, const int& j, State& child);
+        bool moveRight(const int& i, const int& j, State& child);
+        bool moveDown(const int& i, const int& j, State& child);
+        bool moveLeft(const int& i, const int& j, State& child);
 
-    void expand(queue<State>* frontier);
-    void expand(stack<State> *frontier);
+        void expand(vector<State>& children);
+        
+        void show() const;
+        
+        unsigned long long int getSum() const;
 
-    bool operator==(const State& right) const;
-    bool operator!=(const State& right) const;
-    void operator=(const State& right);
-
-    unsigned long long int getSum() const;
-
-    int getInvCount(int* arr) const;
-    bool isSolvable() const;
-
-    State* getParent() const { return parent; }
-
-    // bool operator<(const State &right) const;
+        friend bool operator==(const State& lhs, const State& rhs);
+        friend bool operator!=(const State& lhs, const State& rhs);
+        friend bool operator<(const State& lhs, const State& rhs);
+        friend bool operator>(const State& lhs, const State& rhs);
+        friend bool operator<=(const State& lhs, const State& rhs);
+        friend bool operator>=(const State& lhs, const State& rhs);
 };
-
-namespace std {
-template <>
-struct hash<State> {
-    size_t operator()(const State& k) const
-    {
-        // Compute individual hash based on getSum()
-        return hash<unsigned long long int>()(k.getSum());
-    }
-};
-}
 
 #endif // STATE_H
