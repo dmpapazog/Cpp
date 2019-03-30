@@ -4,6 +4,7 @@
 using namespace std;
 
 #include <vector>
+#include <string>
 
 class DState {
     private:
@@ -11,6 +12,7 @@ class DState {
         int *board;
         DState *parent;
         int grade;
+        string move;
 
         int getIndex(const int& x, const int& y) const;
         void initDState();
@@ -19,9 +21,12 @@ class DState {
     public:
         DState(const int& side);
         DState(const DState& old);
+        ~DState();
 
         int getGrade() const { return grade; }
         DState *getParent() const {return parent; }
+        string getMove() const { return move; }
+        
 
         void setFinalDState();
         void setDefaultInitialDState();
@@ -39,12 +44,16 @@ class DState {
         
         void show() const;
         
-        unsigned long long int getSum() const;
+        string myHash() const;
 
         DState operator=(const DState& rhs);
 
         friend bool operator==(const DState& lhs, const DState& rhs);
         friend bool operator!=(const DState& lhs, const DState& rhs);
+        friend bool operator<(const DState& lhs, const DState& rhs);
+        friend bool operator>(const DState& lhs, const DState& rhs);
+        friend bool operator<=(const DState& lhs, const DState& rhs);
+        friend bool operator>=(const DState& lhs, const DState& rhs);
 };
 
 #endif // STATE_H

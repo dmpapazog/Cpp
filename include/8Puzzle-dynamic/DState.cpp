@@ -4,6 +4,7 @@
 #include <random>
 
 #include <iostream>
+#include <iomanip>
 
 #include <iterator>
 #include <set>
@@ -35,6 +36,12 @@ DState::DState(const DState& old)
     }
     this->parent = old.parent;
     this->grade = old.grade;
+    this->move = old.move;
+}
+
+DState::~DState()
+{
+    delete[] board;
 }
 
 DState DState::operator=(const DState& rhs)
@@ -47,6 +54,7 @@ DState DState::operator=(const DState& rhs)
         }
         this->parent = rhs.parent;
         this->grade = rhs.grade;
+        this->move = rhs.move;
     }
 
     return *this;
@@ -68,7 +76,7 @@ void DState::show() const
 {
     for (int i = 0; i < side; i++) {
         for (int j = 0; j < side; j++)
-            cout << "| " << board[i * side + j] << " ";
+            cout << "| " << setw(2) << board[i * side + j] << " ";
         cout << "|\n";
     }
 }
@@ -105,6 +113,7 @@ bool DState::moveUp(const int& x, const int& y, DState& child)
         child.parent = this;
         child.grade = child.setManhattan();
         
+        child.move = "UP";
         return true;
     }
 
@@ -122,8 +131,10 @@ bool DState::moveRight(const int& x, const int& y, DState& child)
         child.parent = this;
         child.grade = child.setManhattan();
 
+        child.move = "RIGHT";
         return true;
     }
+
     return false;
 }
 
@@ -138,8 +149,10 @@ bool DState::moveDown(const int& x, const int& y, DState& child)
         child.parent = this;
         child.grade = child.setManhattan();
 
+        child.move = "DOWN";
         return true;
     }
+
     return false;
 }
 
@@ -154,14 +167,16 @@ bool DState::moveLeft(const int& x, const int& y, DState& child)
         child.parent = this;
         child.grade = child.setManhattan();
 
+        child.move = "LEFT";
         return true;
     }
+
     return false;
 }
 
 bool operator==(const DState& lhs, const DState& rhs)
 {
-    if (lhs.side == rhs.side) {
+    if ((lhs.grade == rhs.grade) && (lhs.side == rhs.side)) {
         for (int i = 0; i < lhs.side; i++) {
             for (int j = 0; j < lhs.side; j++) {
                 if (lhs.board[i * lhs.side + j] != rhs.board[i * rhs.side + j]) {
@@ -177,6 +192,25 @@ bool operator==(const DState& lhs, const DState& rhs)
 bool operator!=(const DState& lhs, const DState& rhs)
 {
     return !(lhs == rhs);
+}
+
+bool operator<(const DState& lhs, const DState& rhs)
+{
+    return (lhs.grade < rhs.grade);
+}
+
+bool operator>(const DState& lhs, const DState& rhs)
+{
+    return rhs < lhs;
+}
+
+bool operator<=(const DState& lhs, const DState& rhs)
+{
+    return (lhs < rhs) || (lhs == rhs);
+}
+bool operator>=(const DState& lhs, const DState& rhs)
+{
+    return (lhs > rhs) || (lhs == rhs);
 }
 
 void DState::setFinalDState()
@@ -228,23 +262,20 @@ void DState::setRandomInitialDState()
 
 int DState::setManhattan()
 {
-    int x = 0, y = 0;
-    int number = 1;
+    DState finalState(this->side);
+    finalState.setFinalDState();
+    int temp = 0;
 
-    int index_i, index_j;
+    int indexF_i, indexF_j, index_i, index_j;
 
-    while (number < (side * side)) {
-        findNum(index_i, index_j, number);
+    for (int num = 1; num < (this->side * this->side); num++) {
+        finalState.findNum(indexF_i, indexF_j, num);
+        this->findNum(index_i, index_j, num);
 
-        grade += abs(index_i - x) + abs(index_j - y);
-
-        if ((y + 1) > side) {
-            x++;
-        }
-        y = (y + 1) % side;
-        number++;
+        temp += abs(index_i - indexF_i) + abs(index_j - indexF_j);
     }
-    return grade;
+
+    return temp;
 }
 
 void DState::expand(vector<DState>& children)
@@ -268,27 +299,40 @@ void DState::expand(vector<DState>& children)
     }
 }
 
-unsigned long long int DState::getSum() const
+string DState::myHash() const
 {
-    unsigned long long int sum = 0;
+    string strHash;
     for (int i = 0; i < side; i++) {
         for (int j = 0; j < side; j++) {
-            sum += (i + j) * board[i * side + j];
+            strHash.append(to_string(board[i * side + j]));
         }
     }
-
-    return sum;
+    strHash.shrink_to_fit();
+    return strHash;
 }
 
 bool DState::isSolvable() const
 {
     int invCount = 0;
+    int blank;
     for (int i = 0; i < (side * side) - 1; i++) {
         for (int j = i + 1; j < (side * side); j++) {
             if ((board[j] > 0) && (board[i] > 0) && board[i] > board[j]) {
                 invCount++;
             }
+            if (board[i] == 0) {
+                blank = i / side;
+            }
         }
     }
-    return (invCount % 2) == 0;
+
+    if (side & 1) {
+        return !(invCount & 1);
+    } else {
+        if (blank & 1) {
+            return !(invCount & 1);
+        } else {
+            return invCount & 1;
+        }
+    }
 }
