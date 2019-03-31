@@ -14,9 +14,14 @@ class DState {
         int grade;
         string move;
 
+        // Generate the 1-dim index of the 2 coordinates.
         int getIndex(const int& x, const int& y) const;
+
+        // Set the value of every tile to -1;
         void initDState();
         void swap(int& a, int& b);
+
+        // Save the 2-dim coordinates of tile num.
         bool findNum(int& x, int& y, const int& num) const;
     public:
         DState(const int& side);
@@ -27,8 +32,9 @@ class DState {
         DState *getParent() const {return parent; }
         string getMove() const { return move; }
         
-
         void setFinalDState();
+        
+        // The problem's given board.
         void setDefaultInitialDState();
         void setRandomInitialDState();
         int setManhattan();
@@ -43,7 +49,8 @@ class DState {
         void expand(vector<DState>& children);
         
         void show() const;
-        
+
+        // Append every tile's number to a string and return it.        
         string myHash() const;
 
         DState operator=(const DState& rhs);
