@@ -16,7 +16,7 @@ template <>
 struct hash<DState> {
     size_t operator()(const DState& k) const
     {
-        // Compute individual hash based on getSum()
+        // Compute individual hash based on myHash()
         return hash<string>{}(k.myHash());
     }
 };
@@ -28,14 +28,34 @@ void printStatistics(unordered_set<DState>* closedSet, stack<DState, vector<DSta
 
 void visitedCount(const int& num);
 
-bool BFS(queue<DState, deque<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
+bool BFS(queue<DState>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
 bool DFS(stack<DState, vector<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
-bool BestFS(priority_queue<DState, vector<DState>, greater<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
+bool BestFS(priority_queue<DState, deque<DState>, greater<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
 
 int main()
 {
+    char choice;
+    cout << "What is the initial state?\n";
+    cout << "1: Default initial state.\n";
+    cout << "2: Random initial state.\n";
+    cout << "Choice-> ";
+    cin >> choice;
+
     DState initialDState(N);
-    initialDState.setRandomInitialDState();
+    switch (choice) {
+        case '1': {
+            initialDState.setDefaultInitialDState();
+            break;
+        }
+        case '2': {
+            initialDState.setRandomInitialDState();
+            break;
+        }
+        default: {
+            cout << "Unsopported choice. Exiting...";
+            return EXIT_FAILURE;
+        }
+    }
     initialDState.show();
 
     if (!initialDState.isSolvable()) {
@@ -51,7 +71,7 @@ int main()
     unordered_set<DState>* closedSet = new unordered_set<DState>();
     stack<DState, vector<DState>>* solution = new stack<DState, vector<DState>>();
 
-    char choice = '0';
+    choice = '0';
     while (1) {
         printMenu();
         cin >> choice;
@@ -59,7 +79,7 @@ int main()
 
         switch (choice) {
         case '1': {
-            queue<DState, deque<DState>>* frontier = new queue<DState, deque<DState>>();
+            queue<DState>* frontier = new queue<DState>();
 
             frontier->push(initialDState);
 
@@ -87,12 +107,12 @@ int main()
             break;
         }
         case '3': {
-            priority_queue<DState, vector<DState>, greater<DState>>* frontier = new priority_queue<DState, vector<DState>, greater<DState>>();
+            priority_queue<DState, deque<DState>, greater<DState>>* frontier = new priority_queue<DState, deque<DState>, greater<DState>>();
 
             frontier->push(initialDState);
 
             if (BestFS(frontier, closedSet, finalDState, solution)) {
-                cout << "\n\nBestFS found a solution.\n";
+                cout << "\nBestFS found a solution.\n";
                 printStatistics(closedSet, solution);
                 printSolution(solution);
             } else {
@@ -112,7 +132,7 @@ int main()
     }
 }
 
-bool BFS(queue<DState, deque<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution)
+bool BFS(queue<DState>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution)
 {
     while (!frontier->empty()) {
         DState* current = new DState(N);
@@ -179,7 +199,7 @@ bool DFS(stack<DState, vector<DState>>* frontier, unordered_set<DState>* closedS
     return false;
 }
 
-bool BestFS(priority_queue<DState, vector<DState>, greater<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution)
+bool BestFS(priority_queue<DState, deque<DState>, greater<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution)
 {
     while (!frontier->empty()) {
         DState* current = new DState(N);
