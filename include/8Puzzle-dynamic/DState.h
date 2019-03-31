@@ -1,66 +1,67 @@
-#ifndef STATE_H
-#define STATE_H
+#ifndef DSTATE_H
+#define DSTATE_H
 
 using namespace std;
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class DState {
-    private:
-        int side;
-        int *board;
-        DState *parent;
-        int grade;
-        string move;
+private:
+    int side;
+    int* board;
+    DState* parent;
+    int grade;
+    string move;
 
-        // Generate the 1-dim index of the 2 coordinates.
-        int getIndex(const int& x, const int& y) const;
+    // Generate the 1-dim index of the 2 coordinates.
+    int getIndex(const int& x, const int& y) const;
 
-        // Set the value of every tile to -1;
-        void initDState();
-        void swap(int& a, int& b);
+    // Set the value of every tile to -1;
+    void initDState();
+    void swap(int& a, int& b);
 
-        // Save the 2-dim coordinates of tile num.
-        bool findNum(int& x, int& y, const int& num) const;
-    public:
-        DState(const int& side);
-        DState(const DState& old);
-        ~DState();
+    // Save the 2-dim coordinates of tile num.
+    bool findNum(int& x, int& y, const int& num) const;
 
-        int getGrade() const { return grade; }
-        DState *getParent() const {return parent; }
-        string getMove() const { return move; }
-        
-        void setFinalDState();
-        
-        // The problem's given board.
-        void setDefaultInitialDState();
-        void setRandomInitialDState();
-        int setManhattan();
-        
-        bool isSolvable() const;
+public:
+    DState(const int& side);
+    DState(const DState& old);
+    ~DState();
 
-        bool moveUp(const int& x, const int& y, DState& child);
-        bool moveRight(const int& x, const int& y, DState& child);
-        bool moveDown(const int& x, const int& y, DState& child);
-        bool moveLeft(const int& x, const int& y, DState& child);
+    int getGrade() const { return grade; }
+    DState* getParent() const { return parent; }
+    string getMove() const { return move; }
 
-        void expand(vector<DState>& children);
-        
-        void show() const;
+    void setFinalDState();
 
-        // Append every tile's number to a string and return it.        
-        string myHash() const;
+    // The problem's given board.
+    void setDefaultInitialDState();
+    void setRandomInitialDState();
+    int setManhattan();
 
-        DState operator=(const DState& rhs);
+    bool isSolvable() const;
 
-        friend bool operator==(const DState& lhs, const DState& rhs);
-        friend bool operator!=(const DState& lhs, const DState& rhs);
-        friend bool operator<(const DState& lhs, const DState& rhs);
-        friend bool operator>(const DState& lhs, const DState& rhs);
-        friend bool operator<=(const DState& lhs, const DState& rhs);
-        friend bool operator>=(const DState& lhs, const DState& rhs);
+    bool moveUp(const int& x, const int& y, DState& child);
+    bool moveRight(const int& x, const int& y, DState& child);
+    bool moveDown(const int& x, const int& y, DState& child);
+    bool moveLeft(const int& x, const int& y, DState& child);
+
+    void expand(vector<DState>& children);
+
+    void show() const;
+
+    // Append every tile's number to a string and return it.
+    string myHash() const;
+
+    DState operator=(const DState& rhs);
+
+    friend bool operator==(const DState& lhs, const DState& rhs);
+    friend bool operator!=(const DState& lhs, const DState& rhs);
+    friend bool operator<(const DState& lhs, const DState& rhs);
+    friend bool operator>(const DState& lhs, const DState& rhs);
+    friend bool operator<=(const DState& lhs, const DState& rhs);
+    friend bool operator>=(const DState& lhs, const DState& rhs);
 };
 
-#endif // STATE_H
+#endif // DSTATE_H

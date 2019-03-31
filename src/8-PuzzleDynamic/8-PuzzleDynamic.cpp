@@ -35,26 +35,30 @@ bool BestFS(priority_queue<DState, deque<DState>, greater<DState>>* frontier, un
 int main()
 {
     char choice;
-    cout << "What is the initial state?\n";
-    cout << "1: Default initial state.\n";
-    cout << "2: Random initial state.\n";
-    cout << "Choice-> ";
-    cin >> choice;
+    if (N == 3) {
+        cout << "What is the initial state?\n";
+        cout << "1: Default initial state.\n";
+        cout << "2: Random initial state.\n";
+        cout << "Choice-> ";
+        cin >> choice;
+    } else {
+        choice = '2';
+    }
 
     DState initialDState(N);
     switch (choice) {
-        case '1': {
-            initialDState.setDefaultInitialDState();
-            break;
-        }
-        case '2': {
-            initialDState.setRandomInitialDState();
-            break;
-        }
-        default: {
-            cout << "Unsopported choice. Exiting...";
-            return EXIT_FAILURE;
-        }
+    case '1': {
+        initialDState.setDefaultInitialDState();
+        break;
+    }
+    case '2': {
+        initialDState.setRandomInitialDState();
+        break;
+    }
+    default: {
+        cout << "Unsopported choice. Exiting...";
+        return EXIT_FAILURE;
+    }
     }
     initialDState.show();
 
