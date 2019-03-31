@@ -268,7 +268,7 @@ int DState::setManhattan()
 
     int indexF_i, indexF_j, index_i, index_j;
 
-    for (int num = 1; num < (this->side * this->side); num++) {
+    for (int num = 0; num < (this->side * this->side); num++) {
         finalState.findNum(indexF_i, indexF_j, num);
         this->findNum(index_i, index_j, num);
 
