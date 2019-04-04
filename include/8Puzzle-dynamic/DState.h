@@ -14,7 +14,8 @@ private:
     int grade;
     string move;
 
-    // Generate the 1-dim index of the 2 coordinates.
+    // Generate the 1-dim index of the 2 coordinates
+    // based on the eq index = x * row + y
     int getIndex(const int& x, const int& y) const;
 
     // Set the value of every tile to -1;
@@ -42,6 +43,8 @@ public:
 
     bool isSolvable() const;
 
+    // Move functions takes into account the x and y
+    // of the 0's position.
     bool moveUp(const int& x, const int& y, DState& child);
     bool moveRight(const int& x, const int& y, DState& child);
     bool moveDown(const int& x, const int& y, DState& child);
