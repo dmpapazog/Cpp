@@ -9,6 +9,11 @@
         "unordered_set": "cpp",
         "new": "cpp",
         "set": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "sstream": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "string_view": "cpp",
+        "utility": "cpp"
     },
 }
