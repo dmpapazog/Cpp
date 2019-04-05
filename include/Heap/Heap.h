@@ -15,10 +15,6 @@ class Heap {
         int size;
         T *data;
 
-        // A bool mask of the data array. If the 
-        // data[i] is empty, set the mask[i] to 
-        // false.
-        bool *mask;
         void heapifyUp();
         void heapifyDown();
         void swap(T& a, T& b);
@@ -34,6 +30,7 @@ class Heap {
         // Return the index of the parent.
         int getParent(const int& child)  const;
 
+        // Return false if the heap is full.
         bool insert(const T& insertion);
         
         // If the heap is not empty, save the
@@ -70,7 +67,6 @@ Heap<T, Comparator>::Heap()
     size = 0;
     capacity = 0;
     data = nullptr;
-    mask = nullptr;
 }
 
 template<class T, class Comparator>
@@ -79,10 +75,6 @@ Heap<T, Comparator>::Heap(const int& capacity)
     this->capacity = capacity;
     this->size = 0;
     data = new T[this->capacity];
-    mask = new bool[this->capacity];
-    for (int i = 0; i < this->capacity; i++) {
-        mask[i] = false;
-    }
 }
 
 template<class T, class Comparator>
@@ -91,10 +83,8 @@ Heap<T, Comparator>::Heap(const Heap& old)
     this->capacity = old.capacity;
     this->size = old.size;
     this->data = new T[this->capacity];
-    this->mask = new bool[this->capacity];
     for (int i = 0; i < this->capacity; i++) {
         this->data[i] = old.data[i];
-        this->mask[i] = old.mask[i];
     }
 }
 
@@ -118,14 +108,10 @@ void Heap<T, Comparator>::heapifyDown()
     int left = getLeft(index);
     int right = getRight(index);
     Comparator comp;
-    while (mask[left]) {
+    while (left < size) {
         int child;
-        if (mask[right]) {
-            if (comp(data[right], data[left])) {
-                child = right;
-            } else {
-                child = left;
-            }
+        if (right < size && comp(data[right], data[left])) {
+            child = right;
         } else {
             child = left;
         }
@@ -146,7 +132,6 @@ bool Heap<T, Comparator>::insert(const T& insertion)
     if (size == capacity) {
         return false;
     }
-    mask[size] = true;
     data[size++] = insertion;
     heapifyUp();
     return true;
@@ -187,7 +172,6 @@ bool Heap<T, Comparator>::removeTop()
         return false;
     }
     swap(data[0], data[--size]);
-    mask[size] = false;
     heapifyDown();
     return true;
 }
