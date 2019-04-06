@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    Heap<float, less<float>>    minHeap(10);
+    Heap<float,    less<float>> minHeap(10);
     Heap<float, greater<float>> maxHeap(10);
     float temp;
     if (minHeap.extract(temp)) {

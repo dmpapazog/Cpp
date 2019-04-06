@@ -22,6 +22,7 @@ class Heap {
         Heap();
         Heap(const int& size);
         Heap(const Heap& old);
+        ~Heap();
 
         // Return the index of the left child.
         int   getLeft(const int& parent) const;
@@ -86,6 +87,12 @@ Heap<T, Comparator>::Heap(const Heap& old)
     for (int i = 0; i < this->capacity; i++) {
         this->data[i] = old.data[i];
     }
+}
+
+template<class T, class Comparator>
+Heap<T, Comparator>::~Heap()
+{
+    delete[] data;
 }
 
 template<class T, class Comparator>
