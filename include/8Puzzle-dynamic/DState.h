@@ -8,11 +8,11 @@ using namespace std;
 
 class DState {
 private:
-    int side;
-    int* board;
-    DState* parent;
-    int grade;
-    string move;
+    int     side;
+    int    *board;
+    DState *parent;
+    int     grade;
+    string  move;
 
     // Generate the 1-dim index of the 2 coordinates
     // based on the eq index = x * row + y
@@ -26,29 +26,29 @@ private:
     bool findNum(int& x, int& y, const int& num) const;
 
 public:
-    DState(const int& side);
+    DState(const int&    side);
     DState(const DState& old);
     ~DState();
 
-    int getGrade() const { return grade; }
-    DState* getParent() const { return parent; }
-    string getMove() const { return move; }
+    int     getGrade()  const { return grade;  }
+    DState *getParent() const { return parent; }
+    string  getMove()   const { return move;   }
 
     void setFinalDState();
 
     // The problem's given board.
     void setDefaultInitialDState();
     void setRandomInitialDState();
-    int setManhattan();
+    int  setManhattan();
 
     bool isSolvable() const;
 
     // Move functions takes into account the x and y
     // of the 0's position.
-    bool moveUp(const int& x, const int& y, DState& child);
+    bool    moveUp(const int& x, const int& y, DState& child);
     bool moveRight(const int& x, const int& y, DState& child);
-    bool moveDown(const int& x, const int& y, DState& child);
-    bool moveLeft(const int& x, const int& y, DState& child);
+    bool  moveDown(const int& x, const int& y, DState& child);
+    bool  moveLeft(const int& x, const int& y, DState& child);
 
     void expand(vector<DState>& children);
 
@@ -61,8 +61,8 @@ public:
 
     friend bool operator==(const DState& lhs, const DState& rhs);
     friend bool operator!=(const DState& lhs, const DState& rhs);
-    friend bool operator<(const DState& lhs, const DState& rhs);
-    friend bool operator>(const DState& lhs, const DState& rhs);
+    friend bool  operator<(const DState& lhs, const DState& rhs);
+    friend bool  operator>(const DState& lhs, const DState& rhs);
     friend bool operator<=(const DState& lhs, const DState& rhs);
     friend bool operator>=(const DState& lhs, const DState& rhs);
 };

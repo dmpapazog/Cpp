@@ -40,7 +40,7 @@ int main()
         cout << "1: Default initial state.\n";
         cout << "2: Random initial state.\n";
         cout << "Choice-> ";
-        cin >> choice;
+        cin  >> choice;
     } else {
         choice = '2';
     }
@@ -257,7 +257,7 @@ void printSolution(stack<DState, vector<DState>>* solution)
     char choice;
     cout << "Do you want to print the solution?\n";
     cout << "[y]es or [n]o: ";
-    cin >> choice;
+    cin  >> choice;
     switch (choice) {
     case 'y': {
         int step = 1;
@@ -279,6 +279,6 @@ void printSolution(stack<DState, vector<DState>>* solution)
 
 void printStatistics(unordered_set<DState>* closedSet, stack<DState, vector<DState>>* solution)
 {
-    cout << "Closed set: " << closedSet->size() << '\n'
-         << "Solution size: " << solution->size() << '\n';
+    cout << "Closed set: "    << closedSet->size() << '\n'
+         << "Solution size: " <<  solution->size() << '\n';
 }

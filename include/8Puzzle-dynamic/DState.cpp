@@ -17,16 +17,16 @@ using namespace std;
 DState::DState(const int& side)
 {
     this->side = side;
-    board = new int[side * side];
+    board      = new int[side * side];
 
     initDState();
     parent = nullptr;
-    grade = INT32_MAX;
+    grade  = INT32_MAX;
 }
 
 DState::DState(const DState& old)
 {
-    this->side = old.side;
+    this->side  = old.side;
     this->board = new int[this->side * this->side];
 
     for (int i = 0; i < this->side; i++) {
@@ -35,8 +35,8 @@ DState::DState(const DState& old)
         }
     }
     this->parent = old.parent;
-    this->grade = old.grade;
-    this->move = old.move;
+    this->grade  = old.grade;
+    this->move   = old.move;
 }
 
 DState::~DState()
@@ -53,8 +53,8 @@ DState DState::operator=(const DState& rhs)
             }
         }
         this->parent = rhs.parent;
-        this->grade = rhs.grade;
-        this->move = rhs.move;
+        this->grade  = rhs.grade;
+        this->move   = rhs.move;
     }
 
     return *this;
@@ -84,8 +84,8 @@ void DState::show() const
 void DState::swap(int& a, int& b)
 {
     int temp = a;
-    a = b;
-    b = temp;
+        a    = b;
+        b    = temp;
 }
 
 bool DState::findNum(int& x, int& y, const int& num) const
@@ -105,13 +105,13 @@ bool DState::findNum(int& x, int& y, const int& num) const
 bool DState::moveUp(const int& x, const int& y, DState& child)
 {
     if (x > 0) {
-        int index0 = getIndex(x, y);
+        int index0  = getIndex(x, y);
         int indexUp = getIndex(x - 1, y);
         child = *this;
         child.swap(child.board[indexUp], child.board[index0]);
 
         child.parent = this;
-        child.grade = child.setManhattan();
+        child.grade  = child.setManhattan();
         
         child.move = "UP";
         return true;
@@ -123,13 +123,13 @@ bool DState::moveUp(const int& x, const int& y, DState& child)
 bool DState::moveRight(const int& x, const int& y, DState& child)
 {
     if (y < side - 1) {
-        int index0 = getIndex(x, y);
+        int index0     = getIndex(x, y);
         int indexRight = getIndex(x, y + 1);
         child = *this;
         child.swap(child.board[indexRight], child.board[index0]);
 
         child.parent = this;
-        child.grade = child.setManhattan();
+        child.grade  = child.setManhattan();
 
         child.move = "RIGHT";
         return true;
@@ -141,13 +141,13 @@ bool DState::moveRight(const int& x, const int& y, DState& child)
 bool DState::moveDown(const int& x, const int& y, DState& child)
 {
     if (x < side - 1) {
-        int index0 = getIndex(x, y);
+        int index0    = getIndex(x, y);
         int indexDown = getIndex(x + 1, y);
         child = *this;
         child.swap(child.board[indexDown], child.board[index0]);
 
         child.parent = this;
-        child.grade = child.setManhattan();
+        child.grade  = child.setManhattan();
 
         child.move = "DOWN";
         return true;
@@ -159,13 +159,13 @@ bool DState::moveDown(const int& x, const int& y, DState& child)
 bool DState::moveLeft(const int& x, const int& y, DState& child)
 {
     if (y > 0) {
-        int index0 = getIndex(x, y);
+        int index0    = getIndex(x, y);
         int indexLeft = getIndex(x, y - 1);
         child = *this;
         child.swap(child.board[indexLeft], child.board[index0]);
 
         child.parent = this;
-        child.grade = child.setManhattan();
+        child.grade  = child.setManhattan();
 
         child.move = "LEFT";
         return true;
@@ -232,7 +232,7 @@ void DState::setDefaultInitialDState()
     board[6] = 8; board[7] = 5; board[8] = 4;
     
     parent = nullptr;
-    grade = setManhattan();
+    grade  = setManhattan();
 }
 
 void DState::setRandomInitialDState()
