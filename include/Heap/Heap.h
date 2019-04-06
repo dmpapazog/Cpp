@@ -13,7 +13,7 @@ class Heap {
         
         // The number of the elements in the heap.
         int size;
-        T *data;
+        T  *data;
 
         void heapifyUp();
         void heapifyDown();
@@ -65,16 +65,16 @@ int Heap<T, Comparator>::getParent(const int& child) const
 template<class T, class Comparator>
 Heap<T, Comparator>::Heap()
 {
-    size = 0;
+    size     = 0;
     capacity = 0;
-    data = nullptr;
+    data     = nullptr;
 }
 
 template<class T, class Comparator>
 Heap<T, Comparator>::Heap(const int& capacity)
 {
     this->capacity = capacity;
-    this->size = 0;
+    this->size     = 0;
     data = new T[this->capacity];
 }
 
@@ -82,8 +82,8 @@ template<class T, class Comparator>
 Heap<T, Comparator>::Heap(const Heap& old)
 {
     this->capacity = old.capacity;
-    this->size = old.size;
-    this->data = new T[this->capacity];
+    this->size     = old.size;
+    this->data     = new T[this->capacity];
     for (int i = 0; i < this->capacity; i++) {
         this->data[i] = old.data[i];
     }
@@ -98,12 +98,12 @@ Heap<T, Comparator>::~Heap()
 template<class T, class Comparator>
 void Heap<T, Comparator>::heapifyUp()
 {
-    int index = size - 1;
+    int index  = size - 1;
     int parent = getParent(index);
     Comparator comp;
     while (index > 0 && comp(data[index], data[parent])) {
         swap(data[index], data[parent]);
-        index = parent;
+        index  = parent;
         parent = getParent(index);
     }
 }
@@ -112,7 +112,7 @@ template<class T, class Comparator>
 void Heap<T, Comparator>::heapifyDown()
 {
     int index = 0;
-    int left = getLeft(index);
+    int left  = getLeft(index);
     int right = getRight(index);
     Comparator comp;
     while (left < size) {
@@ -125,7 +125,7 @@ void Heap<T, Comparator>::heapifyDown()
         if (comp(data[child], data[index])) {
             swap(data[child], data[index]);
             index = child;
-            left = getLeft(index);
+            left  = getLeft(index);
             right = getRight(index);
             continue;
         }
@@ -168,8 +168,8 @@ template<class T, class Comparator>
 void Heap<T, Comparator>::swap(T& a, T& b)
 {
     T temp = a;
-    a = b;
-    b = temp;
+      a    = b;
+      b    = temp;
 }
 
 template<class T, class Comparator>
