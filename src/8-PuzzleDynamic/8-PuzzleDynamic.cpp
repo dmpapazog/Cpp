@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <queue>
-#include <set>
 #include <stack>
 #include <unordered_set>
 #include <vector>
@@ -22,15 +21,20 @@ struct hash<DState> {
 };
 }
 
+typedef stack<DState, vector<DState>> Stack;
+typedef unordered_set<DState> Set;
+typedef queue<DState> Queue;
+typedef priority_queue<DState, deque<DState>, greater<DState>> PrioQueue;
+
 void printMenu();
-void printSolution(stack<DState, vector<DState>>* solution);
-void printStatistics(unordered_set<DState>* closedSet, stack<DState, vector<DState>>* solution);
+void printSolution(Stack* solution);
+void printStatistics(Set* closedSet, Stack* solution);
 
 void visitedCount(const int& num);
 
-bool BFS(queue<DState>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
-bool DFS(stack<DState, vector<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
-bool BestFS(priority_queue<DState, deque<DState>, greater<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution);
+bool BFS(Queue* frontier, Set* closedSet, const DState& finalDState, Stack* solution);
+bool DFS(Stack* frontier, Set* closedSet, const DState& finalDState, Stack* solution);
+bool BestFS(PrioQueue* frontier, Set* closedSet, const DState& finalDState, Stack* solution);
 
 int main()
 {
@@ -72,8 +76,8 @@ int main()
     DState finalDState(N);
     finalDState.setFinalDState();
 
-    unordered_set<DState>* closedSet = new unordered_set<DState>();
-    stack<DState, vector<DState>>* solution = new stack<DState, vector<DState>>();
+    auto closedSet = new Set();
+    auto solution  = new Stack();
 
     choice = '0';
     while (1) {
@@ -83,7 +87,7 @@ int main()
 
         switch (choice) {
         case '1': {
-            queue<DState>* frontier = new queue<DState>();
+            auto frontier = new Queue();
 
             frontier->push(initialDState);
 
@@ -97,7 +101,7 @@ int main()
             break;
         }
         case '2': {
-            stack<DState, vector<DState>>* frontier = new stack<DState, vector<DState>>();
+            auto frontier = new Stack();
 
             frontier->push(initialDState);
 
@@ -111,7 +115,7 @@ int main()
             break;
         }
         case '3': {
-            priority_queue<DState, deque<DState>, greater<DState>>* frontier = new priority_queue<DState, deque<DState>, greater<DState>>();
+            auto frontier = new PrioQueue();
 
             frontier->push(initialDState);
 
@@ -136,10 +140,10 @@ int main()
     }
 }
 
-bool BFS(queue<DState>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution)
+bool BFS(Queue* frontier, Set* closedSet, const DState& finalDState, Stack* solution)
 {
     while (!frontier->empty()) {
-        DState* current = new DState(N);
+        auto current = new DState(N);
         *current = frontier->front();
         frontier->pop();
 
@@ -169,10 +173,10 @@ bool BFS(queue<DState>* frontier, unordered_set<DState>* closedSet, const DState
     return false;
 }
 
-bool DFS(stack<DState, vector<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution)
+bool DFS(Stack* frontier, Set* closedSet, const DState& finalDState, Stack* solution)
 {
     while (!frontier->empty()) {
-        DState* current = new DState(N);
+        auto current = new DState(N);
         *current = frontier->top();
         frontier->pop();
 
@@ -203,10 +207,10 @@ bool DFS(stack<DState, vector<DState>>* frontier, unordered_set<DState>* closedS
     return false;
 }
 
-bool BestFS(priority_queue<DState, deque<DState>, greater<DState>>* frontier, unordered_set<DState>* closedSet, const DState& finalDState, stack<DState, vector<DState>>* solution)
+bool BestFS(PrioQueue* frontier, Set* closedSet, const DState& finalDState, Stack* solution)
 {
     while (!frontier->empty()) {
-        DState* current = new DState(N);
+        auto current = new DState(N);
         *current = frontier->top();
         frontier->pop();
 
