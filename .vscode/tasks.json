@@ -98,7 +98,6 @@
             "command": "g++.exe",
             "args": [
                 "-Wall",
-                "-std=c++0x",
                 "-g",
                 "-c",
                 "${fileDirname}\\*.cpp"
