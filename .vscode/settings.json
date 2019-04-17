@@ -16,6 +16,9 @@
         "string_view": "cpp",
         "utility": "cpp",
         "stack": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "fstream": "cpp",
+        "*.tcc": "cpp",
+        "iosfwd": "cpp"
     },
 }
