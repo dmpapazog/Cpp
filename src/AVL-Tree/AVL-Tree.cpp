@@ -1,6 +1,8 @@
 #include "cstdlib"
 #include "include/AVL/AVL.hpp"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -10,40 +12,34 @@ void find(const AVL<T>& tree, const T& val);
 template <class T>
 void deleteVal(AVL<T>& tree, const T& val);
 
-int main()
+int main(int argc, char const *argv[])
 {
-    AVL<int> myTree(0);
+    ifstream inputFile;
+    inputFile.open("..\\data\\integers.txt");
 
-    int test = 2;
-    find(myTree, test);
+    if (!inputFile.is_open()) {
+        return EXIT_FAILURE;
+    }
 
-    myTree.insert(1);
-    myTree.insert(2);
-    myTree.insert(3);
-    myTree.insert(4);
-    myTree.insert(5);
-    myTree.insert(6);
-    myTree.insert(7);
-    myTree.insert(8);
-    myTree.insert(9);
-    myTree.insert(10);
-    myTree.insert(11);
-    myTree.insert(12);
+    int num;
+    string line;
+    AVL<int> myTree;
+    while (getline(inputFile, line)) {
+        num = stoi(line);
+        myTree.insert(num);
+    }
 
-    // test = 4;
-    // find(myTree, test);
-    // test = 11;
-    // find(myTree, test);
-
-    deleteVal(myTree, 9);
-    deleteVal(myTree, 6);
-    deleteVal(myTree, 9);
+    num = atoi(argv[1]);
+    deleteVal(myTree, 12);
+    deleteVal(myTree, 12);
+    find(myTree, num);
 
     cout << "The size of the tree is: " << myTree.getSize();
 
-    myTree.findMin(test);
-    cout << "\nThe minimum element of the tree is: " << test;
+    myTree.findMin(num);
+    cout << "\nThe minimum element of the tree is: " << num;
 
+    inputFile.close();
     return EXIT_SUCCESS;
 }
 
