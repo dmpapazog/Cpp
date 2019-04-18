@@ -30,8 +30,7 @@ int main(int argc, char const *argv[])
     }
 
     num = atoi(argv[1]);
-    deleteVal(myTree, 12);
-    deleteVal(myTree, 12);
+    deleteVal(myTree, 1);
     find(myTree, num);
 
     cout << "The size of the tree is: " << myTree.getSize();

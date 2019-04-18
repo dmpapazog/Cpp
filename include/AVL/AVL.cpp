@@ -264,7 +264,6 @@ bool AVL<T>::deleteNum(const T& num)
         } else if (it->isRight()) {
             it->parent->right = it->left;
         }
-        reconstruct(it->left);
 
     // Has only right child.
     } else if (!it->hasLeft() && it->hasRight()) {
@@ -274,7 +273,6 @@ bool AVL<T>::deleteNum(const T& num)
         } else if (it->isRight()) {
             it->parent->right = it->right;
         }
-        reconstruct(it->right);
 
     // Hasn't any children.
     } else {
@@ -283,8 +281,8 @@ bool AVL<T>::deleteNum(const T& num)
         } else if (it->isRight()) {
             it->parent->right = nullptr;
         }
-        reconstruct(it->parent);
     }
+    reconstruct(it->parent);
 
     delete it;
     size--;
