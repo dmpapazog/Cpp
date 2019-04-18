@@ -255,33 +255,32 @@ bool AVL<T>::deleteNum(const T& num)
         it = inOrder(temp);
         it->swap(temp);
     }
+
     // Has only left child.
     if (it->hasLeft() && !it->hasRight()) {
+        it->left->parent = it->parent;
         if (it->isLeft()) {
-            it->left->parent = it->parent;
             it->parent->left = it->left;
-            reconstruct(it->left);
-        } else {
-            it->left->parent = it->parent;
+        } else if (it->isRight()) {
             it->parent->right = it->left;
-            reconstruct(it->left);
         }
+        reconstruct(it->left);
+
     // Has only right child.
     } else if (!it->hasLeft() && it->hasRight()) {
+        it->right->parent = it->parent;
         if (it->isLeft()) {
-            it->right->parent = it->parent;
             it->parent->left = it->right;
-            reconstruct(it->right);
-        } else {
-            it->right->parent = it->parent;
+        } else if (it->isRight()) {
             it->parent->right = it->right;
-            reconstruct(it->right);
         }
+        reconstruct(it->right);
+
     // Hasn't any children.
     } else {
         if (it->isLeft()) {
             it->parent->left = nullptr;
-        } else {
+        } else if (it->isRight()) {
             it->parent->right = nullptr;
         }
         reconstruct(it->parent);
