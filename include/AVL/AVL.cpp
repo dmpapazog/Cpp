@@ -257,7 +257,7 @@ bool AVL<T>::deleteNum(const T& num)
     }
 
     // Has only left child.
-    if (it->hasLeft() && !it->hasRight()) {
+    if (it->hasLeft()) {
         it->left->parent = it->parent;
         if (it->isLeft()) {
             it->parent->left = it->left;
@@ -266,7 +266,7 @@ bool AVL<T>::deleteNum(const T& num)
         }
 
     // Has only right child.
-    } else if (!it->hasLeft() && it->hasRight()) {
+    } else if (it->hasRight())) {
         it->right->parent = it->parent;
         if (it->isLeft()) {
             it->parent->left = it->right;
