@@ -4,12 +4,12 @@
 #include "AVL.hpp"
 #include <iostream>
 
-using namespace std;
+namespace std {
 
 template <class T>
-Node<T>::Node(const T& data)
+Node<T>::Node(const T& importData)
 {
-    this->data = data;
+    this->data = importData;
     parent = left = right = nullptr;
     height = balance = 0;
 }
@@ -214,11 +214,11 @@ char* AVL<T>::search(const T& val) const
     const Node<T>* it = root;
     while (it != nullptr) {
         if (val == it->data) {
-            return "SUCCESS";
+            return const_cast<char* const>("SUCCESS");
         }
         it = val < it->data ? it->left : it->right;
     }
-    return "FAILURE";
+    return const_cast<char* const>("FAILURE");
 }
 
 template <class T>
@@ -265,8 +265,8 @@ bool AVL<T>::deleteNum(const T& num)
             it->parent->right = it->left;
         }
 
-    // Has only right child.
-    } else if (it->hasRight())) {
+        // Has only right child.
+    } else if (it->hasRight()) {
         it->right->parent = it->parent;
         if (it->isLeft()) {
             it->parent->left = it->right;
@@ -274,7 +274,7 @@ bool AVL<T>::deleteNum(const T& num)
             it->parent->right = it->right;
         }
 
-    // Hasn't any children.
+        // Hasn't any children.
     } else {
         if (it->isLeft()) {
             it->parent->left = nullptr;
@@ -288,5 +288,5 @@ bool AVL<T>::deleteNum(const T& num)
     size--;
     return true;
 }
-
+} // namespace std
 #endif // AVL_HPP

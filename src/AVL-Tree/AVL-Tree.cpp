@@ -12,7 +12,7 @@ void find(const AVL<T>& tree, const T& val);
 template <class T>
 void deleteVal(AVL<T>& tree, const T& val);
 
-int main(int argc, char const *argv[])
+int main(int , char const *argv[])
 {
     ifstream inputFile;
     inputFile.open("..\\data\\integers.txt");

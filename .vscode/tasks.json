@@ -19,7 +19,7 @@
             "type": "shell",
             "label": "build",
             "dependsOn": "compile",
-            "command": "g++.exe",
+            "command": "clang++.exe",
             "args": [
                 "-g",
                 "${fileDirname}\\*.o",
@@ -57,10 +57,15 @@
         {
             "type": "shell",
             "label": "compile",
-            "command": "g++.exe",
+            "command": "clang++.exe",
             "args": [
                 "-Wall",
-                "-std=c++0x",
+                "-Wextra",
+                "-Winvalid-pch",
+                "-Wmissing-declarations",
+                "-Wmissing-format-attribute",
+                "-Wmissing-include-dirs",
+                "-Wredundant-decls",
                 "-g",
                 "-IC:\\Users\\Jim\\Documents\\C++",
                 "-c",

@@ -1,10 +1,10 @@
 #ifndef DSTATE_H
 #define DSTATE_H
 
-using namespace std;
-
 #include <string>
 #include <vector>
+
+using std::string;
 
 class DState {
 private:
@@ -50,7 +50,7 @@ public:
     bool  moveDown(const int& x, const int& y, DState& child);
     bool  moveLeft(const int& x, const int& y, DState& child);
 
-    void expand(vector<DState>& children);
+    void expand(std::vector<DState>& children);
 
     void show() const;
 
