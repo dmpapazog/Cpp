@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <math.h>
-#include "include/Triangle/Triangle.h"
+#include "Triangle/Triangle.h"
 
 using namespace std;
 

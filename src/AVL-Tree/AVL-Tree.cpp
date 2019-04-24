@@ -1,5 +1,5 @@
 #include "cstdlib"
-#include "include/AVL/AVL.hpp"
+#include "AVL/AVL.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "include/BankAccount/BankAccount.h"
-#include "include/SavingAccount/SavingAccount.h"
+#include "BankAccount/BankAccount.h"
+#include "SavingAccount/SavingAccount.h"
 
 using namespace std;
 

@@ -67,7 +67,7 @@
                 "-Wmissing-include-dirs",
                 "-Wredundant-decls",
                 "-g",
-                "-IC:\\Users\\Jim\\Documents\\C++",
+                "-IC:\\Users\\Jim\\Documents\\C++\\include",
                 "-c",
                 "${file}",
                 "-o",

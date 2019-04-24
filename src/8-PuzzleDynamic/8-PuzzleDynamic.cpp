@@ -1,4 +1,4 @@
-#include "include/8Puzzle-dynamic/DState.h"
+#include "8Puzzle-dynamic/DState.h"
 #include <cstdlib>
 #include <iostream>
 #include <queue>

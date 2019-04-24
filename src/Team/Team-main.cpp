@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "include/Player/Defender.h"
-#include "include/Team/Team.h"
+#include "Player/Defender.h"
+#include "Team/Team.h"
 
 using namespace std;
 

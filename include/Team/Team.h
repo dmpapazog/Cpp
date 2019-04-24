@@ -1,7 +1,7 @@
 #ifndef TEAM_H
 #define TEAM_H
 
-#include "include/Player/Player.h"
+#include "Player/Player.h"
 
 #define MAX_NUMBER 30
 

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "include/Disk/Disk.h"
-#include "include/MagneticDisk/MagneticDisk.h"
+#include "Disk/Disk.h"
+#include "MagneticDisk/MagneticDisk.h"
 
 using namespace std;
 

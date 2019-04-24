@@ -9,7 +9,7 @@ using namespace std;
 // Save an array of size of random numbers
 // of type T to arr from min to max.
 template<typename T>
-void generate(T* const arr, const size_t& size = 100000, const T& min = -10000, const T& max = 10000000);
+void generate(T* const arr, const size_t& size = 1000, const T& min = -10000, const T& max = 10000000);
 
 int main()
 {
