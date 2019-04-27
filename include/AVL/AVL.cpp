@@ -34,19 +34,13 @@ bool Node<T>::hasRight() const
 template <class T>
 bool Node<T>::isLeft() const
 {
-    if (parent == nullptr) {
-        return false;
-    }
-    return parent->left == this;
+    return (parent != nullptr) && (parent->left == this);
 }
 
 template <class T>
 bool Node<T>::isRight() const
 {
-    if (parent == nullptr) {
-        return false;
-    }
-    return parent->right == this;
+    return (parent != nullptr) && (parent->right == this);
 }
 
 template <class T>
@@ -224,15 +218,64 @@ char* AVL<T>::search(const T& val) const
 template <class T>
 Node<T>* AVL<T>::inOrder(Node<T>* node)
 {
-    Node<T>* it = node;
-    if (!it->hasRight()) {
-        return node;
-    }
-    it = it->right;
+    Node<T>* it = node->right;
     while (it->hasLeft()) {
         it = it->left;
     }
     return it;
+}
+
+template <class T>
+void AVL<T>::printIn() const
+{
+    printInOrder(root);
+}
+
+template <class T>
+void AVL<T>::printPre() const
+{
+    printPreOrder(root);
+}
+template <class T>
+void AVL<T>::printPost() const
+{
+    printPostOrder(root);
+}
+
+template <class T>
+void AVL<T>::printInOrder(Node<T>* node) const
+{
+    if (node->hasLeft()) {
+        printInOrder(node->left);
+    }
+    cout << ' ' << node->data;
+    if (node->hasRight()) {
+        printInOrder(node->right);
+    }
+}
+
+template <class T>
+void AVL<T>::printPreOrder(Node<T>* node) const
+{
+    cout << ' ' << node->data;
+    if (node->hasLeft()) {
+        printPreOrder(node->left);
+    }
+    if (node->hasRight()) {
+        printPreOrder(node->right);
+    }
+}
+
+template <class T>
+void AVL<T>::printPostOrder(Node<T>* node) const
+{
+    if (node->hasLeft()) {
+        printPostOrder(node->left);
+    }
+    if (node->hasRight()) {
+        printPostOrder(node->right);
+    }
+    cout << ' ' << node->data;
 }
 
 template <class T>

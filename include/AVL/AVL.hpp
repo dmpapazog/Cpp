@@ -7,16 +7,16 @@ template <class T>
 struct Node {
     int balance;
     int height;
-    Node<T>*left, *right, *parent;
+    Node<T>* left, *right, *parent;
     T data;
 
     Node(const T& data);
     ~Node();
 
-    bool hasLeft() const;
+    bool hasLeft()  const;
     bool hasRight() const;
-    bool isLeft() const;
-    bool isRight() const;
+    bool isLeft()   const;
+    bool isRight()  const;
 
     void setAttributes();
     void swap(Node<T>* other);
@@ -28,11 +28,14 @@ private:
     int size;
     Node<T>* root;
 
-    Node<T>* rotate(Node<T>* node);
+    Node<T>*         rotate(Node<T>* node);
     Node<T>* doubleRotation(Node<T>* const high, Node<T>* const middle, Node<T>* const low);
     Node<T>* simpleRotation(Node<T>* const high, Node<T>* const low);
-    void reconstruct(Node<T>* node);
-    Node<T>* inOrder(Node<T>* node);
+    void        reconstruct(Node<T>* node);
+    Node<T>*        inOrder(Node<T>* node);
+    void       printInOrder(Node<T>* node) const;
+    void     printPostOrder(Node<T>* node) const;
+    void      printPreOrder(Node<T>* node) const;
 
 public:
     AVL();
@@ -55,6 +58,10 @@ public:
     // If val exists in the tree,
     // return SUCCESS.
     char* search(const T& val) const;
+
+    void printIn()   const;
+    void printPre()  const;
+    void printPost() const;
 };
 
 } // namespace std
