@@ -203,16 +203,16 @@ bool AVL<T>::findMin(T& out) const
 }
 
 template <class T>
-char* AVL<T>::search(const T& val) const
+string AVL<T>::search(const T& val) const
 {
     const Node<T>* it = root;
     while (it != nullptr) {
         if (val == it->data) {
-            return const_cast<char* const>("SUCCESS");
+            return ("SUCCESS"s);
         }
         it = val < it->data ? it->left : it->right;
     }
-    return const_cast<char* const>("FAILURE");
+    return ("FAILURE"s);
 }
 
 template <class T>
