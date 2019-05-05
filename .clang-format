@@ -1,0 +1,20 @@
+BasedOnStyle: LLVM
+IndentWidth: 2
+UseTab: Always
+BreakBeforeBraces: Linux
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+AlignTrailingComments: true
+AllowShortFunctionsOnASingleLine: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: false
+  AfterStruct: false
+  AfterEnum: true
+  AfterControlStatement: false
+  AfterFunction: true
+  SplitEmptyFunction: false
+
+
+
+DerivePointerBinding: true
