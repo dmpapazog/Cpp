@@ -60,6 +60,7 @@ void Node<T>::setAttributes()
 template <class T>
 void Node<T>::swap(Node<T>* other)
 {
+    // 
     T temp = other->data;
     other->data = this->data;
     this->data = temp;
@@ -136,15 +137,25 @@ template <class T>
 Node<T>* AVL<T>::rotate(Node<T>* node)
 {
     if (node->balance == -2) {
+        // The node is imbalanced because of the right subtree.
         if (node->right->balance == -1) {
+            // The extra node is located at the right - right node.
+            // Perform a simple rotation for the node and node->right.
             return simpleRotation(node, node->right);
         } else {
+            // The extra node is located at the right - left node.
+            // Perform a double rotation for the node, node->right and node->right->left.
             return doubleRotation(node, node->right, node->right->left);
         }
     } else {
+        // The node is imbalanced because of the left subtree.
         if (node->left->balance == 1) {
+            // The extra node is located at the left - left node.
+            // Perform a simple rotation for the node and node->left.
             return simpleRotation(node, node->left);
         } else {
+            // The extra node is located at the left - right node.
+            // Perform a double rotation for the node, node->left and node->left->right.
             return doubleRotation(node, node->left, node->left->right);
         }
     }
@@ -154,12 +165,14 @@ template <class T>
 Node<T>* AVL<T>::simpleRotation(Node<T>* const high, Node<T>* const low)
 {
     if (low->isRight()) {
+        // Perform a left rotation.
         high->right = low->left;
         if (low->hasLeft()) {
             low->left->parent = high;
         }
         low->left = high;
     } else {
+        // Perform a right rotation.
         high->left = low->right;
         if (low->hasRight()) {
             low->right->parent = high;
@@ -199,7 +212,6 @@ bool AVL<T>::findMin(T& out) const
     const Node<T>* it = root;
     while (it->hasLeft()) {
         it = it->left;
-        cout << "\nGoing to left";
     }
     out = it->data;
     return true;
@@ -307,14 +319,17 @@ bool AVL<T>::deleteNum(const T& num)
     }
 
     Node<T>* it = temp;
-    // Has 2 children.
     if (temp->hasLeft() && temp->hasRight()) {
+        // Has 2 children. Starting from temp, find the first node 
+        // by the in-order traversal and swap it with the initial one.
         it = inOrder(temp);
         it->swap(temp);
+        // 'it' points to the node that will be deleted. Because of the
+        // swap, the 'it' will have at most 1 child.
     }
 
-    // Has only left child.
     if (it->hasLeft()) {
+        // Has only left child.
         it->left->parent = it->parent;
         if (it->isLeft()) {
             it->parent->left = it->left;
@@ -325,8 +340,8 @@ bool AVL<T>::deleteNum(const T& num)
             root = it->left;
         }
 
-        // Has only right child.
     } else if (it->hasRight()) {
+        // Has only right child.
         it->right->parent = it->parent;
         if (it->isLeft()) {
             it->parent->left = it->right;
@@ -337,8 +352,8 @@ bool AVL<T>::deleteNum(const T& num)
             root = it->right;
         }
 
-        // Hasn't any children.
     } else {
+        // Hasn't any children.
         if (it->isLeft()) {
             it->parent->left = nullptr;
         } else if (it->isRight()) {
