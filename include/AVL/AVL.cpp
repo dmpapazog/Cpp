@@ -16,9 +16,7 @@ Node<T>::Node(const T& importData)
 }
 
 template <class T>
-Node<T>::~Node()
-{
-}
+Node<T>::~Node() = default;
 
 template <class T>
 bool Node<T>::hasLeft() const
