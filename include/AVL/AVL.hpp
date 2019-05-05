@@ -8,10 +8,13 @@ namespace std {
 template <class T>
 struct Node {
     // Maximum height between the left and the right sub-trees.
-    int height;
+    int subHeight;
 
     // The difference between the heights of the left and the right sub-trees.
     int balance;
+
+    // The number of appearences of the number in the tree.
+    unsigned int count;
 
     Node<T>* left;
     Node<T>* right;
@@ -72,19 +75,16 @@ public:
     // Insert newData in the tree.
     void insert(const T& newData);
 
-    // If the tree is not empty, save the
-    // minimum to &out and return true.
+    // If the tree is not empty, save the minimum to &out and return true.
     bool findMin(T& out) const;
 
     // Return the size of the tree.
     int getSize() const { return size; }
 
-    // If num is in the tree, delete it
-    // and return true.
+    // If num is in the tree, delete it and return true.
     bool deleteNum(const T& num);
 
-    // If val exists in the tree,
-    // return SUCCESS.
+    // If val exists in the tree, return SUCCESS.
     string search(const T& val) const;
 
     // Print the tree be in-order traversal.

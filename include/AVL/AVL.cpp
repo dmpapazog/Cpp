@@ -11,7 +11,8 @@ Node<T>::Node(const T& importData)
 {
     this->data = importData;
     parent = left = right = nullptr;
-    height = balance = 0;
+    subHeight = balance = 0;
+    count = 1;
 }
 
 template <class T>
@@ -49,12 +50,12 @@ void Node<T>::setAttributes()
     int leftH, rightH;
     leftH = rightH = 0;
     if (hasLeft()) {
-        leftH += 1 + left->height;
+        leftH += 1 + left->subHeight;
     }
     if (hasRight()) {
-        rightH += 1 + right->height;
+        rightH += 1 + right->subHeight;
     }
-    height = leftH > rightH ? leftH : rightH;
+    subHeight = leftH > rightH ? leftH : rightH;
     balance = leftH - rightH;
 }
 
@@ -64,6 +65,10 @@ void Node<T>::swap(Node<T>* other)
     T temp = other->data;
     other->data = this->data;
     this->data = temp;
+
+    int temp2 = other->count;
+    other->count = this->count;
+    this->count = temp2;
 }
 
 template <class T>
@@ -91,28 +96,27 @@ void AVL<T>::insert(const T& newData)
     }
 
     Node<T>* it = root;
-    bool flag = false;
     while (true) {
         if (newData < it->data) {
             if (!it->hasLeft()) {
-                flag = true;
+                it->left = newNode;
                 break;
             }
             it = it->left;
+        } else if (newData == it->data) {
+            it->count++;
+            size++;
+            delete newNode;
+            return;
         } else {
             if (!it->hasRight()) {
+                it->right = newNode;
                 break;
             }
             it = it->right;
         }
     }
-
     newNode->parent = it;
-    if (flag) {
-        it->left = newNode;
-    } else {
-        it->right = newNode;
-    }
 
     reconstruct(it);
     size++;
@@ -121,11 +125,11 @@ void AVL<T>::insert(const T& newData)
 template <class T>
 void AVL<T>::reconstruct(Node<T>* node)
 {
-    node->setAttributes();
-    if (node->balance < -1 || node->balance > 1) {
-        node = rotate(node);
-    }
-    if (node->parent != nullptr) {
+    if (node != nullptr) {
+        node->setAttributes();
+        if (node->balance < -1 || node->balance > 1) {
+            node = rotate(node);
+        }
         reconstruct(node->parent);
     }
 }
@@ -197,6 +201,7 @@ bool AVL<T>::findMin(T& out) const
     const Node<T>* it = root;
     while (it->hasLeft()) {
         it = it->left;
+        cout << "\nGoing to left";
     }
     out = it->data;
     return true;
@@ -228,18 +233,24 @@ Node<T>* AVL<T>::inOrder(Node<T>* node)
 template <class T>
 void AVL<T>::printIn() const
 {
-    printInOrder(root);
+    if (root != nullptr) {
+        printInOrder(root);
+    }
 }
 
 template <class T>
 void AVL<T>::printPre() const
 {
-    printPreOrder(root);
+    if (root != nullptr) {
+        printPreOrder(root);
+    }
 }
 template <class T>
 void AVL<T>::printPost() const
 {
-    printPostOrder(root);
+    if (root != nullptr) {
+        printPostOrder(root);
+    }
 }
 
 template <class T>
@@ -248,7 +259,7 @@ void AVL<T>::printInOrder(Node<T>* node) const
     if (node->hasLeft()) {
         printInOrder(node->left);
     }
-    cout << ' ' << node->data;
+    cout << ' ' << node->data << '(' << node->count << ')';
     if (node->hasRight()) {
         printInOrder(node->right);
     }
@@ -257,7 +268,7 @@ void AVL<T>::printInOrder(Node<T>* node) const
 template <class T>
 void AVL<T>::printPreOrder(Node<T>* node) const
 {
-    cout << ' ' << node->data;
+    cout << ' ' << node->data << '(' << node->count << ')';
     if (node->hasLeft()) {
         printPreOrder(node->left);
     }
@@ -275,7 +286,7 @@ void AVL<T>::printPostOrder(Node<T>* node) const
     if (node->hasRight()) {
         printPostOrder(node->right);
     }
-    cout << ' ' << node->data;
+    cout << ' ' << node->data << '(' << node->count << ')';
 }
 
 template <class T>
@@ -290,6 +301,11 @@ bool AVL<T>::deleteNum(const T& num)
             break;
         }
         temp = num < temp->data ? temp->left : temp->right;
+    }
+
+    if (--temp->count > 0) {
+        size--;
+        return true;
     }
 
     Node<T>* it = temp;
@@ -307,6 +323,9 @@ bool AVL<T>::deleteNum(const T& num)
         } else if (it->isRight()) {
             it->parent->right = it->left;
         }
+        if (root == it) {
+            root = it->left;
+        }
 
         // Has only right child.
     } else if (it->hasRight()) {
@@ -315,6 +334,9 @@ bool AVL<T>::deleteNum(const T& num)
             it->parent->left = it->right;
         } else if (it->isRight()) {
             it->parent->right = it->right;
+        }
+        if (root == it) {
+            root = it->right;
         }
 
         // Hasn't any children.
@@ -328,7 +350,9 @@ bool AVL<T>::deleteNum(const T& num)
     reconstruct(it->parent);
 
     delete it;
-    size--;
+    if (--size == 0) {
+        root = nullptr;
+    }
     return true;
 }
 } // namespace std
