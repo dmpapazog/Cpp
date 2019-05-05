@@ -5,6 +5,7 @@
 #include <stack>
 #include <unordered_set>
 #include <vector>
+#include <memory>
 
 #define N 3
 
@@ -76,8 +77,8 @@ int main()
     DState finalDState(N);
     finalDState.setFinalDState();
 
-    auto closedSet = new Set();
-    auto solution  = new Stack();
+    auto closedSet = make_unique<Set>();
+    auto solution  = make_unique<Stack>();
 
     choice = '0';
     while (1) {
@@ -87,42 +88,42 @@ int main()
 
         switch (choice) {
         case '1': {
-            auto frontier = new Queue();
+            auto frontier = make_unique<Queue>();
 
             frontier->push(initialDState);
 
-            if (BFS(frontier, closedSet, finalDState, solution)) {
+            if (BFS(frontier.get(), closedSet.get(), finalDState, solution.get())) {
                 cout << "\n\nBFS found a solution.\n";
-                printStatistics(closedSet, solution);
-                printSolution(solution);
+                printStatistics(closedSet.get(), solution.get());
+                printSolution(solution.get());
             } else {
                 cout << "\n\nBFS didn't find a solution.\n";
             }
             break;
         }
         case '2': {
-            auto frontier = new Stack();
+            auto frontier = make_unique<Stack>();
 
             frontier->push(initialDState);
 
-            if (DFS(frontier, closedSet, finalDState, solution)) {
+            if (DFS(frontier.get(), closedSet.get(), finalDState, solution.get())) {
                 cout << "\n\nDFS found a solution.\n";
-                printStatistics(closedSet, solution);
-                printSolution(solution);
+                printStatistics(closedSet.get(), solution.get());
+                printSolution(solution.get());
             } else {
                 cout << "\n\nDFS didn't find a solution.\n";
             }
             break;
         }
         case '3': {
-            auto frontier = new PrioQueue();
+            auto frontier = make_unique<PrioQueue>();
 
             frontier->push(initialDState);
 
-            if (BestFS(frontier, closedSet, finalDState, solution)) {
+            if (BestFS(frontier.get(), closedSet.get(), finalDState, solution.get())) {
                 cout << "\nBestFS found a solution.\n";
-                printStatistics(closedSet, solution);
-                printSolution(solution);
+                printStatistics(closedSet.get(), solution.get());
+                printSolution(solution.get());
             } else {
                 cout << "\n\nBestFS didn't find a solution.\n";
             }
