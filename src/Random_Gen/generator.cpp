@@ -11,15 +11,24 @@ using namespace std;
 template<typename T>
 void generate(T* const arr, const size_t& size = 1000, const T& min = -10000, const T& max = 10000000);
 
-int main()
+int main(int argc, char const *argv[])
 {
     ofstream outFile;
     outFile.open("..\\data\\integers.txt");
 
     if (outFile.is_open()) {
-        const size_t size = 1000000;
-        auto arr = new long long[size];
-        generate(arr, size);
+        size_t size = 10;
+        long double min = -10000;
+        long double max =  10000000;
+        if (argc > 1) {
+            size = stoull(argv[1]);
+        }
+        if (argc == 4) {
+            min = stold(argv[2]);
+            max = stold(argv[3]);
+        }
+        auto arr = new long double[size];
+        generate(arr, size, min, max);
         
         for (size_t i = 0; i < size; i++) {
             outFile << arr[i] << '\n';
@@ -38,7 +47,7 @@ void generate(T* const arr, const size_t& size, const T& min, const T& max)
 {
     srand(time(NULL));
     for (size_t i = 0; i < size; i++) {
-        double a = double(rand()) / RAND_MAX;
-        arr[i] = a * double((max - min)) + min;
+        long double a = static_cast<long double>(rand()) / static_cast<long double>(RAND_MAX);
+        arr[i] = a * static_cast<long double>((max - min)) + static_cast<long double>(min);
     }
 }
