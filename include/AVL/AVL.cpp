@@ -3,6 +3,7 @@
 
 #include "AVL.hpp"
 #include <iostream>
+#include <cassert>
 
 namespace std {
 
@@ -16,7 +17,25 @@ Node<T>::Node(const T& importData)
 }
 
 template <class T>
-Node<T>::~Node() = default;
+Node<T>::~Node()
+{
+    // Will only perform if it has only one child
+    assert(!(hasLeft() && hasRight()));
+    // Will trigger if has left child.
+    bool flag = false;
+    if (hasLeft()) {
+        left->parent = parent;
+        flag = true;
+    } else if (hasRight()) {
+        right->parent = parent;
+    }
+    if (isLeft()) {
+        parent->left = flag ? left : right;
+    } else if (isRight()) {
+        parent->right = flag ? left : right;
+    }
+    parent = left = right = nullptr;
+}
 
 template <class T>
 bool Node<T>::hasLeft() const
@@ -328,44 +347,20 @@ bool AVL<T>::deleteNum(const T& num)
         // swap, the 'it' will have at most 1 child.
     }
 
-    if (it->hasLeft()) {
-        // Has only left child.
-        it->left->parent = it->parent;
-        if (it->isLeft()) {
-            it->parent->left = it->left;
-        } else if (it->isRight()) {
-            it->parent->right = it->left;
-        }
-        if (root == it) {
+    if (root == it) {
+        if (it->hasLeft()) {
             root = it->left;
-        }
-
-    } else if (it->hasRight()) {
-        // Has only right child.
-        it->right->parent = it->parent;
-        if (it->isLeft()) {
-            it->parent->left = it->right;
-        } else if (it->isRight()) {
-            it->parent->right = it->right;
-        }
-        if (root == it) {
+        } else if (it->hasRight()) {
             root = it->right;
-        }
-
-    } else {
-        // Hasn't any children.
-        if (it->isLeft()) {
-            it->parent->left = nullptr;
-        } else if (it->isRight()) {
-            it->parent->right = nullptr;
+        } else {
+            root = it->parent;
         }
     }
-    reconstruct(it->parent);
 
+    temp = it->parent;
     delete it;
-    if (--size == 0) {
-        root = nullptr;
-    }
+    reconstruct(temp);
+    size--;
     return true;
 }
 } // namespace std
