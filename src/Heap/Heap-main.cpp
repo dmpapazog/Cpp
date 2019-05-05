@@ -6,7 +6,10 @@
 
 using namespace std;
 
-int main()
+template <class T, class Comp>
+void deleteVal(Heap<T, Comp>& heap);
+
+int main(int argc, char const **)
 {
     ifstream inputFile;
     inputFile.open("..\\data\\integers.txt");
@@ -33,6 +36,13 @@ int main()
         maxHeap.insert(num);
     }
     
+    if (argc > 1) {
+        for (int i = 1; i < argc; i++) {
+            deleteVal(minHeap);
+            deleteVal(maxHeap);
+        }
+    }
+
     if (minHeap.extract(num)) {
         cout << "The minimum is: " << num << '\n';
     } else {
@@ -45,6 +55,21 @@ int main()
         cout << "Max heap is empty.\n";
     }
 
+    cout << "MinHeap: ";
+    minHeap.show();
+    cout << "\nMaxHeap: ";
+    maxHeap.show();
+
     inputFile.close();
     return EXIT_SUCCESS;
+}
+
+template <class T, class Comp>
+void deleteVal(Heap<T, Comp>& heap)
+{
+    if (heap.removeTop()) {
+        cout << "Removed top from the heap.\n";
+    } else {
+        cout << "Heap is empty.\n";
+    }
 }
