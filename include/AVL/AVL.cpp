@@ -104,6 +104,27 @@ AVL<T>::AVL(const T& data)
 }
 
 template <class T>
+void AVL<T>::treeDelete(Node<T>* node)
+{
+    if (node->hasLeft()) {
+        treeDelete(node->left);
+    }
+    if (node->hasRight()) {
+        treeDelete(node->right);
+    }
+    delete node;
+}
+
+template <class T>
+AVL<T>::~AVL()
+{
+    if (root != nullptr) {
+        treeDelete(root);
+        root = nullptr;
+    }
+}
+
+template <class T>
 void AVL<T>::insert(const T& newData)
 {
     auto newNode = new Node<T>(newData);

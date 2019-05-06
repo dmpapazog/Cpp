@@ -68,9 +68,13 @@ private:
     void     printPostOrder(Node<T>* node) const;
     void      printPreOrder(Node<T>* node) const;
 
+    // Delete the tree
+    void treeDelete(Node<T>* node);
+
 public:
     AVL();
     AVL(const T& importData);
+    ~AVL();
 
     // Insert newData in the tree.
     void insert(const T& newData);
