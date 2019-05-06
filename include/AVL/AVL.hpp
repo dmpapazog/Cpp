@@ -81,6 +81,9 @@ public:
 
     // If the tree is not empty, save the minimum to &out and return true.
     bool findMin(T& out) const;
+    
+    // If the tree is not empty, save the maximum to &out and return true.
+    bool findMax(T& out) const;
 
     // Return the size of the tree.
     int getSize() const { return size; }

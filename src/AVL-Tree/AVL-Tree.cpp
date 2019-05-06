@@ -50,6 +50,9 @@ int main(int argc, char const *argv[])
     if (myTree.findMin(num)) {
         cout << "\nThe minimum element of the tree is: " << num;
     }
+    if (myTree.findMax(num)) {
+        cout << "\nThe maximum element of the tree is: " << num;
+    }
     printPreOrder(myTree);
     printInOrder(myTree);
     printPostOrder(myTree);

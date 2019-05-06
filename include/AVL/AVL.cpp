@@ -258,6 +258,21 @@ bool AVL<T>::findMin(T& out) const
 }
 
 template <class T>
+bool AVL<T>::findMax(T& out) const
+{
+    if (root == nullptr) {
+        return false;
+    }
+
+    const Node<T>* it = root;
+    while (it->hasRight()) {
+        it = it->right;
+    }
+    out = it->data;
+    return true;
+}
+
+template <class T>
 string AVL<T>::search(const T& val) const
 {
     const Node<T>* it = root;
