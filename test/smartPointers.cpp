@@ -74,12 +74,23 @@ int main()
     c.printAddress();
     a.printAddress();
     
-    auto asd1 = make_shared<int[]>(10);
+    shared_ptr<int[]> asd1(new int[10], [] (int* i) { 
+        delete[] i; 
+    });
     fillShared(asd1, 10);
     printShared(asd1, 10);
     
     auto asd2 = asd1;
     printShared(asd1, 10);
-    
+
+    auto unique1 = make_unique<int>(5);
+    unique_ptr<int> unique2(unique1.get());
+
+    cout << "\nUnique1: " << *unique1;
+    cout << "\nUnique2: " << *unique2;
+    cout << "\nPointer of unique1: " << unique1.get();
+    cout << "\nPointer of unique2: " << unique2.get();
+    unique2.release();
+
     return EXIT_SUCCESS;
 }
