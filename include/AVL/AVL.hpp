@@ -54,10 +54,10 @@ private:
     // Perform the necessary rotation and return the node with the lowest height.
     Node<T>*         rotate(Node<T>* node);
 
-    // Perform a double rotation between high, middle and low nodes and return the node with the lowest height.
+    // Perform a double rotation between high, middle and low nodes and return the node with the lowest height (closest to the root).
     Node<T>* doubleRotation(Node<T>* const high, Node<T>* const middle, Node<T>* const low);
 
-    // Perform a simple rotation between high and low nodes and return the node with the lowest height.
+    // Perform a simple rotation between high and low nodes and return the node with the lowest height (closest to the root).
     Node<T>* simpleRotation(Node<T>* const high, Node<T>* const low);
 
     // Reconstruct the tree starting from node until reaching the root of the tree.

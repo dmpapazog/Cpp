@@ -21,19 +21,34 @@ Node<T>::~Node()
 {
     // Will only perform if it has only one child
     assert(!(hasLeft() && hasRight()));
+
     // Will trigger if has left child.
     bool flag = false;
+
+    // Has left child
     if (hasLeft()) {
+        // set its parent to this node's parent.
         left->parent = parent;
         flag = true;
+
+    // Has right child
     } else if (hasRight()) {
+        // set its parent to this node's parent.
         right->parent = parent;
     }
+
+    // If this node is left child
     if (isLeft()) {
+        // reset this parent's left child based on flag.
         parent->left = flag ? left : right;
+    
+    // If this node is right child
     } else if (isRight()) {
+        // reset this parent's right child based on flag.
         parent->right = flag ? left : right;
     }
+
+    // Set this node's pointers to nullptr to avoid unwanted deletions/
     parent = left = right = nullptr;
 }
 
@@ -79,7 +94,7 @@ void Node<T>::setAttributes()
 template <class T>
 void Node<T>::swap(Node<T>* other)
 {
-    // 
+    // Swap the data and the count of this node with the other.
     T temp = other->data;
     other->data = this->data;
     this->data = temp;
@@ -120,7 +135,6 @@ AVL<T>::~AVL()
 {
     if (root != nullptr) {
         treeDelete(root);
-        root = nullptr;
     }
 }
 
@@ -204,21 +218,29 @@ Node<T>* AVL<T>::rotate(Node<T>* node)
 template <class T>
 Node<T>* AVL<T>::simpleRotation(Node<T>* const high, Node<T>* const low)
 {
+    // If low is high's right child
     if (low->isRight()) {
         // Perform a left rotation.
+
         high->right = low->left;
+        // If low has a left child
         if (low->hasLeft()) {
+            // set its parent to high node.
             low->left->parent = high;
         }
         low->left = high;
     } else {
         // Perform a right rotation.
+
+        // If low has a right child
         high->left = low->right;
         if (low->hasRight()) {
+            // set its parent to high node.
             low->right->parent = high;
         }
         low->right = high;
     }
+    // Check if high has a parent and change its corresponding child pointer.
     if (high->isLeft()) {
         high->parent->left = low;
     } else if (high->isRight()) {
@@ -373,6 +395,7 @@ bool AVL<T>::deleteNum(const T& num)
         return true;
     }
 
+    // The node to be deleted.
     Node<T>* it = temp;
     if (temp->hasLeft() && temp->hasRight()) {
         // Has 2 children. Starting from temp, find the first node 
@@ -383,6 +406,7 @@ bool AVL<T>::deleteNum(const T& num)
         // swap, the 'it' will have at most 1 child.
     }
 
+    // Setting the root of the tree to its proper new value
     if (root == it) {
         if (it->hasLeft()) {
             root = it->left;
