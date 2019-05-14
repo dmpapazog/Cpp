@@ -8,6 +8,7 @@ private:
     int capacity;
 
     // The number of the elements in the heap.
+    // It points to the first free position of the heap.
     int size;
     T* data;
 

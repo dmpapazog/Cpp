@@ -62,9 +62,11 @@ void Heap<T, Comparator>::heapifyUp()
 {
     int index  = size - 1;
     int parent = getParent(index);
+
     Comparator comp;
     while (index > 0 && comp(data[index], data[parent])) {
         swap(data[index], data[parent]);
+
         index  = parent;
         parent = getParent(index);
     }
@@ -76,6 +78,7 @@ void Heap<T, Comparator>::heapifyDown()
     int index = 0;
     int left  = getLeft(index);
     int right = getRight(index);
+
     Comparator comp;
     while (left < size) {
         int child;
@@ -86,6 +89,7 @@ void Heap<T, Comparator>::heapifyDown()
         }
         if (comp(data[child], data[index])) {
             swap(data[child], data[index]);
+
             index = child;
             left  = getLeft(index);
             right = getRight(index);
