@@ -1,5 +1,5 @@
-#ifndef HEAP_HPP
-#define HEAP_HPP
+#ifndef HEAP_CXX
+#define HEAP_CXX
 
 #include <iostream>
 #include "Heap.h"
@@ -145,4 +145,4 @@ bool Heap<T, Comparator>::removeTop()
     return true;
 }
 
-#endif // HEAP_HPP
+#endif // HEAP_CXX

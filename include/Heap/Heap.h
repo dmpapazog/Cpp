@@ -11,7 +11,10 @@ private:
     int size;
     T* data;
 
+    // Used by insertion. Restructrures the heap.
     void heapifyUp();
+    
+    // Used by removeTop. Restructures the heap.
     void heapifyDown();
     void swap(T& a, T& b);
 
@@ -28,11 +31,12 @@ public:
     // Return the index of the parent.
     int getParent(const int& child)  const;
 
-    // Return false if the heap is full.
+    // If the heap is not full, add the 
+    // insertion to the heap and return true.
     bool insert(const T& insertion);
 
     // If the heap is not empty, save the
-    // top of the heap and return true.
+    // top of the heap to out and return true.
     bool extract(T& out);
 
     // If the heap is not empty, delete
@@ -41,6 +45,6 @@ public:
     void show() const;
 };
 
-#include "Heap.hpp"
+#include "Heap.cxx"
 
 #endif // HEAP_H
