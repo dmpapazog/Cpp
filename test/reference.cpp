@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int &&returnRef()
+int returnRef()
 {
     return 5;
 }
