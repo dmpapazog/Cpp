@@ -318,65 +318,6 @@ Node<T>* AVL<T>::inOrder(Node<T>* node)
 }
 
 template <class T>
-void AVL<T>::printIn() const
-{
-    if (root != nullptr) {
-        printInOrder(root);
-    }
-}
-
-template <class T>
-void AVL<T>::printPre() const
-{
-    if (root != nullptr) {
-        printPreOrder(root);
-    }
-}
-template <class T>
-void AVL<T>::printPost() const
-{
-    if (root != nullptr) {
-        printPostOrder(root);
-    }
-}
-
-template <class T>
-void AVL<T>::printInOrder(Node<T>* node) const
-{
-    if (node->hasLeft()) {
-        printInOrder(node->left);
-    }
-    cout << ' ' << node->data << '(' << node->count << ')';
-    if (node->hasRight()) {
-        printInOrder(node->right);
-    }
-}
-
-template <class T>
-void AVL<T>::printPreOrder(Node<T>* node) const
-{
-    cout << ' ' << node->data << '(' << node->count << ')';
-    if (node->hasLeft()) {
-        printPreOrder(node->left);
-    }
-    if (node->hasRight()) {
-        printPreOrder(node->right);
-    }
-}
-
-template <class T>
-void AVL<T>::printPostOrder(Node<T>* node) const
-{
-    if (node->hasLeft()) {
-        printPostOrder(node->left);
-    }
-    if (node->hasRight()) {
-        printPostOrder(node->right);
-    }
-    cout << ' ' << node->data << '(' << node->count << ')';
-}
-
-template <class T>
 bool AVL<T>::deleteNum(const T& num)
 {
     Node<T>* temp = root;

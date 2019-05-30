@@ -64,9 +64,6 @@ private:
     void        reconstruct(Node<T>* node);
 
     Node<T>*        inOrder(Node<T>* node);
-    void       printInOrder(Node<T>* node) const;
-    void     printPostOrder(Node<T>* node) const;
-    void      printPreOrder(Node<T>* node) const;
 
     // Delete the tree
     void treeDelete(Node<T>* node);
@@ -93,13 +90,6 @@ public:
 
     // If val exists in the tree, return SUCCESS.
     string search(const T& val) const;
-
-    // Print the tree be in-order traversal.
-    void printIn()   const;
-    // Print the tree be pre-order traversal.
-    void printPre()  const;
-    // Print the tree be post-order traversal.
-    void printPost() const;
 };
 
 } // namespace std
