@@ -1,7 +1,6 @@
 #ifndef HEAP_CXX
 #define HEAP_CXX
 
-#include <iostream>
 #include "Heap.h"
 
 using namespace std;
@@ -118,16 +117,6 @@ bool Heap<T, Comparator>::extract(T& out)
     }
     out = data[0];
     return true;
-}
-
-template<class T, class Comparator>
-void Heap<T, Comparator>::show() const
-{
-    cout << "\n| ";
-    for (int i = 0; i < size; i++) {
-        cout << data[i] << " | ";
-    }
-    cout << '\n';
 }
 
 template<class T, class Comparator>

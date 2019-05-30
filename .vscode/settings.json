@@ -19,6 +19,8 @@
         "vector": "cpp",
         "fstream": "cpp",
         "*.tcc": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "chrono": "cpp",
+        "future": "cpp"
     },
 }

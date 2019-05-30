@@ -19,18 +19,18 @@ private:
     void heapifyDown();
     void swap(T& a, T& b);
 
-public:
-    Heap();
-    Heap(const int& size);
-    Heap(const Heap& old);
-    ~Heap();
-
     // Return the index of the left child.
     int   getLeft(const int& parent) const;
     // Return the index of the right child.
     int  getRight(const int& parent) const;
     // Return the index of the parent.
     int getParent(const int& child)  const;
+
+public:
+    Heap();
+    Heap(const int& size);
+    Heap(const Heap& old);
+    ~Heap();
 
     // If the heap is not full, add the 
     // insertion to the heap and return true.
@@ -43,7 +43,6 @@ public:
     // If the heap is not empty, delete
     // the top node and return true.
     bool removeTop();
-    void show() const;
 };
 
 #include "Heap.cxx"
