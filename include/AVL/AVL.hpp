@@ -13,7 +13,7 @@ struct Node {
     // The difference between the heights of the left and the right sub-trees.
     int balance;
 
-    // The number of appearences of the number in the tree.
+    // The number of appearences of the data in the tree.
     unsigned int count;
 
     Node<T>* left;

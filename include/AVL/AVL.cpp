@@ -2,7 +2,6 @@
 #define AVL_HPP
 
 #include "AVL.hpp"
-#include <iostream>
 #include <cassert>
 
 namespace std {
@@ -48,7 +47,7 @@ Node<T>::~Node()
         parent->right = flag ? left : right;
     }
 
-    // Set this node's pointers to nullptr to avoid unwanted deletions/
+    // Set this node's pointers to nullptr to avoid unwanted deletions.
     parent = left = right = nullptr;
 }
 
@@ -232,8 +231,8 @@ Node<T>* AVL<T>::simpleRotation(Node<T>* const high, Node<T>* const low)
     } else {
         // Perform a right rotation.
 
-        // If low has a right child
         high->left = low->right;
+        // If low has a right child
         if (low->hasRight()) {
             // set its parent to high node.
             low->right->parent = high;
