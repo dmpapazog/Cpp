@@ -59,11 +59,15 @@ Heap<T, Comparator>::~Heap()
 template<class T, class Comparator>
 void Heap<T, Comparator>::heapifyUp()
 {
+    // Start from the bottom of the heap
     int index  = size - 1;
     int parent = getParent(index);
 
     Comparator comp;
+    // While we are in the heap and comp is true bettween the child and the parent
+    // (child is lesser or greater than the parent)
     while (index > 0 && comp(data[index], data[parent])) {
+        // swap them and continue from the parent
         swap(data[index], data[parent]);
 
         index  = parent;
@@ -79,14 +83,20 @@ void Heap<T, Comparator>::heapifyDown()
     int right = getRight(index);
 
     Comparator comp;
+    // While left child is in the heap
     while (left < size) {
         int child;
+        // check for which child comp is true
         if (right < size && comp(data[right], data[left])) {
             child = right;
         } else {
             child = left;
         }
+
+        // If comp between the child and the index is true
+        // (child is lesser or greater than the parent)
         if (comp(data[child], data[index])) {
+            // swap them and continue from the child
             swap(data[child], data[index]);
 
             index = child;
