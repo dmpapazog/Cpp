@@ -99,12 +99,4 @@ int main(int argc, char const* argv[])
 // Inserts the bigger number as the first argument in the gcd function.
 int GCD(int x, int y) { return (x > y) ? gcd(x, y) : gcd(y, x); }
 
-int gcd(int x, int y)
-{
-  if (y == 0) {
-    return x;
-  }
-  return gcd(y, (x % y));
-}
-
-bool noExceptions(exception& exc) { switch }
+int gcd(int x, int y) { return y == 0 ? x : gcd(y, (x % y)); }
