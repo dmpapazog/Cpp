@@ -64,8 +64,6 @@ int main(int argc, char const* argv[])
       cout << "The gcd of " << x << " and " << y << " is: " << GCD(x, y)
            << endl;
       cout << "-----\n";
-
-      //   pause(start);
       return 0;
 
     case 3: try { x = stoi(argv[1]);
