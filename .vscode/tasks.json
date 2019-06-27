@@ -19,7 +19,7 @@
             "type": "shell",
             "label": "build",
             "dependsOn": "compile",
-            "command": "clang++.exe",
+            "command": "g++.exe",
             "args": [
                 "-g",
                 "${fileDirname}\\*.o",
@@ -57,8 +57,10 @@
         {
             "type": "shell",
             "label": "compile",
-            "command": "clang++.exe",
+            "command": "g++.exe",
             "args": [
+                "-std=c++17",
+                "-fpermissive",
                 "-Wall",
                 "-Wextra",
                 "-Winvalid-pch",

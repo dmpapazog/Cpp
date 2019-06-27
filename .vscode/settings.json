@@ -21,6 +21,10 @@
         "*.tcc": "cpp",
         "iosfwd": "cpp",
         "chrono": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "memory": "cpp",
+        "algorithm": "cpp",
+        "deque": "cpp",
+        "list": "cpp"
     },
 }

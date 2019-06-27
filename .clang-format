@@ -1,20 +1,28 @@
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 IndentWidth: 2
-UseTab: Always
-BreakBeforeBraces: Linux
+ColumnLimit: 80
+# UseTab: Always
+# BreakBeforeBraces: Linux
 AllowShortIfStatementsOnASingleLine: false
-IndentCaseLabels: false
-AlignTrailingComments: true
-AllowShortFunctionsOnASingleLine: true
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+IndentCaseLabels: true
+# AlignTrailingComments: true
+# AllowShortFunctionsOnASingleLine: true
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+Cpp11BracedListStyle: true
+FixNamespaceComments: true
+IncludeBlocks: Regroup
 BreakBeforeBraces: Custom
 BraceWrapping:
-  AfterClass: false
-  AfterStruct: false
-  AfterEnum: true
+  AfterClass: true
+#   AfterStruct: false
+#   AfterEnum: true
   AfterControlStatement: false
   AfterFunction: true
-  SplitEmptyFunction: false
-
-
-
-DerivePointerBinding: true
+#   SplitEmptyFunction: false
+# 
+# 
+# 
+# DerivePointerBinding: true
