@@ -18,8 +18,8 @@ int main(int argc, char const *argv[])
 
     if (outFile.is_open()) {
         size_t size = 10;
-        long double min = -10000;
-        long double max =  10000000;
+        int min = -100;
+        int max =  1000;
         if (argc > 1) {
             size = stoull(argv[1]);
         }
@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
             min = stold(argv[2]);
             max = stold(argv[3]);
         }
-        auto arr = new long double[size];
+        auto arr = new int[size];
         generate(arr, size, min, max);
         
         for (size_t i = 0; i < size; i++) {
